@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using Nefarius.Utilities.DeviceManagement.PnP;
@@ -29,12 +27,12 @@ namespace FestivalInstrumentMapper
         public ushort ProductId { get; }
         public ushort Revision { get; }
 
-        public string Serial { get; }
+        public string? Serial { get; }
 
         public int InputLength { get; private set; }
         public int OutputLength { get; private set; }
 
-        private HidDeviceStream(string path, HIDD_ATTRIBUTES attributes, HIDP_CAPS capabilities, string serial)
+        private HidDeviceStream(string path, HIDD_ATTRIBUTES attributes, HIDP_CAPS capabilities, string? serial)
         {
             _path = path;
 
@@ -65,7 +63,7 @@ namespace FestivalInstrumentMapper
                     continue;
 
                 if (!Open(path, exclusive: false, out var handle) || !GetHardwareIds(handle, out var attributes) ||
-                    !GetCapabilities(handle, out var capabilities) || !GetSerial(handle, out string? serial))
+                    !GetCapabilities(handle, out var capabilities))
                     continue;
 
                 // Skip devices that can't be read
@@ -77,7 +75,7 @@ namespace FestivalInstrumentMapper
                     id.vendorId == attributes.VendorID && id.productId == attributes.ProductID))
                     continue;
 
-                yield return new HidDeviceStream(path, attributes, capabilities, serial);
+                yield return new HidDeviceStream(path, attributes, capabilities, GetSerial(handle));
             }
         }
 
@@ -134,7 +132,7 @@ namespace FestivalInstrumentMapper
             return true;
         }
 
-        private static unsafe bool GetSerial(SafeFileHandle handle, [NotNullWhen(true)] out string? serial)
+        private static unsafe string? GetSerial(SafeFileHandle handle)
         {
             Span<char> buffer = stackalloc char[4092 / 2]; // Buffer must be <= 4093 bytes
             fixed (char* ptr = buffer)
@@ -143,12 +141,10 @@ namespace FestivalInstrumentMapper
                 if (!result && Marshal.GetLastPInvokeError() != 0)
                 {
                     LogWin32Error("Could not get HID serial number");
-                    serial = null;
-                    return false;
+                    return null;
                 }
 
-                serial = new string(ptr);
-                return true;
+                return new string(ptr);
             }
         }
 
