@@ -1,0 +1,14 @@
+WIN32_ERROR
+
+CreateFile
+ReadFile
+WriteFile
+GetOverlappedResult
+CancelIoEx
+
+HidD_GetAttributes
+HidD_GetSerialNumberString
+HidD_GetPreparsedData
+HidD_GetInputReport
+HidD_SetOutputReport
+HidP_GetCaps

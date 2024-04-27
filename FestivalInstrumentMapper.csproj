@@ -17,8 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HidApi.Net" Version="1.0.2" />
     <PackageReference Include="LibUsbDotNet" Version="3.0.102-alpha" />
+    <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="3.18.1" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HidApi;
 
 namespace FestivalInstrumentMapper
 {
@@ -21,48 +20,42 @@ namespace FestivalInstrumentMapper
 
     internal class HidApiDevice : InstrumentMapperDevice
     {
-        private Device? _device;
-        private DeviceInfo _info;
+        private HidDeviceStream _stream;
         private bool _shouldStop = false;
         private bool _isRunning = false;
         private SyntheticController? _controller = null;
 
-        public HidApiDevice(Device device)
-        {
-            _device = device;
-            _info = _device.GetDeviceInfo();
-        }
 
-        public HidApiDevice(DeviceInfo info)
+        public HidApiDevice(HidDeviceStream device)
         {
-            _info = info;
+            _stream = device;
         }
 
         public HidApiDeviceType GetDeviceType()
         {
-            if (_info.VendorId == 0x1209 && _info.ProductId == 0x2882)
+            if (_stream.VendorId == 0x1209 && _stream.ProductId == 0x2882)
             {
-                if (_info.ReleaseNumber == 0x0400)
+                if (_stream.Revision == 0x0400)
                     return HidApiDeviceType.Santroller_RB;
-                if (_info.ReleaseNumber == 0x0300)
+                if (_stream.Revision == 0x0300)
                     return HidApiDeviceType.Santroller_GH;
             }
 
-            if (_info.VendorId == 0x12BA)
+            if (_stream.VendorId == 0x12BA)
             {
-                if (_info.ProductId == 0x0200)
+                if (_stream.ProductId == 0x0200)
                     return HidApiDeviceType.PS3_RB;
-                if (_info.ProductId == 0x0100)
+                if (_stream.ProductId == 0x0100)
                     return HidApiDeviceType.PS3_GH;
             }
 
-            if (_info.VendorId == 0x1BAD && (_info.ProductId == 0x0004 || _info.ProductId == 0x3010))
+            if (_stream.VendorId == 0x1BAD && (_stream.ProductId == 0x0004 || _stream.ProductId == 0x3010))
                 return HidApiDeviceType.Wii_RB;
 
-            if (_info.VendorId == 0x0E6F && (_info.ProductId == 0x0173 || _info.ProductId == 0x024A))
+            if (_stream.VendorId == 0x0E6F && (_stream.ProductId == 0x0173 || _stream.ProductId == 0x024A))
                 return HidApiDeviceType.PS4_RB_PDP;
 
-            if (_info.VendorId == 0x0738 && _info.ProductId == 0x8261)
+            if (_stream.VendorId == 0x0738 && _stream.ProductId == 0x8261)
                 return HidApiDeviceType.PS4_RB_MadCatz;
 
             return HidApiDeviceType.Unknown;
@@ -70,35 +63,23 @@ namespace FestivalInstrumentMapper
 
         public override string ToString()
         {
-            string device_name = $"Unknown-{_info.VendorId:X4}/{_info.ProductId:X4}/{_info.ReleaseNumber:X4}";
-            switch (GetDeviceType())
+            string device_name = GetDeviceType() switch
             {
-                case HidApiDeviceType.Wii_RB:
-                    device_name = "Wii Rock Band Guitar";
-                    break;
-                case HidApiDeviceType.PS3_RB:
-                    device_name = "PS3 Rock Band Guitar";
-                    break;
-                case HidApiDeviceType.PS3_GH:
-                    device_name = "PS3 Guitar Hero Guitar";
-                    break;
-                case HidApiDeviceType.PS4_RB_MadCatz:
-                    device_name = "PS4 Stratocaster";
-                    break;
-                case HidApiDeviceType.PS4_RB_PDP:
-                    device_name = "PS4 Jaguar/Riffmaster";
-                    break;
-                case HidApiDeviceType.Santroller_RB:
-                case HidApiDeviceType.Santroller_GH:
-                    device_name = "Santroller Guitar";
-                    break;
-            }
-            return $"{device_name} ({_info.SerialNumber})";
+                HidApiDeviceType.Wii_RB => "Wii Rock Band Guitar",
+                HidApiDeviceType.PS3_RB => "PS3 Rock Band Guitar",
+                HidApiDeviceType.PS3_GH => "PS3 Guitar Hero Guitar",
+                HidApiDeviceType.PS4_RB_MadCatz => "PS4 Stratocaster",
+                HidApiDeviceType.PS4_RB_PDP => "PS4 Jaguar/Riffmaster",
+                HidApiDeviceType.Santroller_RB or
+                HidApiDeviceType.Santroller_GH => "Santroller Guitar",
+                _ => $"Unknown - {_stream.VendorId:X4}:{_stream.ProductId:X4}:{_stream.Revision:X4}",
+            };
+            return $"{device_name} ({_stream.Serial})";
         }
 
         public void OpenDevice()
         {
-            _device = new Device(_info.VendorId, _info.ProductId, _info.SerialNumber);
+            _stream.Open(exclusive: false);
         }
 
         public void AssignController(SyntheticController? controller)
@@ -148,10 +129,13 @@ namespace FestivalInstrumentMapper
         public void RunThreadWiiPS3RB()
         {
             byte[] gipreport = new byte[0xE];
+            byte[] hidreport = new byte[27];
             _isRunning = true;
             while (true)
             {
-                ReadOnlySpan<byte> hidreport = _device.Read(27);
+                if (!_stream.Read(hidreport))
+                    break;
+
                 ToGip.PS3Wii_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
@@ -166,10 +150,13 @@ namespace FestivalInstrumentMapper
         public void RunThreadPS3GH()
         {
             byte[] gipreport = new byte[0xE];
+            byte[] hidreport = new byte[27];
             _isRunning = true;
             while (true)
             {
-                ReadOnlySpan<byte> hidreport = _device.Read(27);
+                if (!_stream.Read(hidreport))
+                    break;
+
                 ToGip.PS3_GH(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
@@ -184,10 +171,13 @@ namespace FestivalInstrumentMapper
         public void RunThreadPS4RB()
         {
             byte[] gipreport = new byte[0xE];
+            byte[] hidreport = new byte[78];
             _isRunning = true;
             while (true)
             {
-                ReadOnlySpan<byte> hidreport = _device.Read(78);
+                if (!_stream.Read(hidreport))
+                    break;
+
                 ToGip.PS4_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
@@ -202,10 +192,13 @@ namespace FestivalInstrumentMapper
         public void RunThreadSantroller()
         {
             byte[] gipreport = new byte[0xE];
+            byte[] hidreport = new byte[27];
             _isRunning = true;
             while (true)
             {
-                ReadOnlySpan<byte> hidreport = _device.Read(27);
+                if (!_stream.Read(hidreport))
+                    break;
+
                 ToGip.Santroller_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
@@ -220,10 +213,13 @@ namespace FestivalInstrumentMapper
         public void RunThreadSantrollerGH()
         {
             byte[] gipreport = new byte[0xE];
+            byte[] hidreport = new byte[27];
             _isRunning = true;
             while (true)
             {
-                ReadOnlySpan<byte> hidreport = _device.Read(27);
+                if (!_stream.Read(hidreport))
+                    break;
+
                 ToGip.Santroller_GH(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report

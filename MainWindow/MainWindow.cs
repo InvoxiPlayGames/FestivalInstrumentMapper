@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using HidApi;
 
 namespace FestivalInstrumentMapper
 {
@@ -17,21 +16,24 @@ namespace FestivalInstrumentMapper
         {
             deviceSelectBox.Items.Clear();
 
-            List<DeviceInfo> enumeratedDevices = new();
-            // PS3 Guitars
-            enumeratedDevices.AddRange(Hid.Enumerate(0x12BA, 0x0100));
-            enumeratedDevices.AddRange(Hid.Enumerate(0x12BA, 0x0200));
-            // Wii Guitars
-            enumeratedDevices.AddRange(Hid.Enumerate(0x1BAD, 0x0004));
-            enumeratedDevices.AddRange(Hid.Enumerate(0x1BAD, 0x3010));
-            // Santroller
-            enumeratedDevices.AddRange(Hid.Enumerate(0x1209, 0x2882));
-            // PS4 Guitars
-            enumeratedDevices.AddRange(Hid.Enumerate(0x0E6F, 0x0173));
-            enumeratedDevices.AddRange(Hid.Enumerate(0x0E6F, 0x024A));
-            enumeratedDevices.AddRange(Hid.Enumerate(0x0738, 0x8261));
+            List<(ushort vendorId, ushort productId)> filterIds =
+            [
+                // PS3 Guitars
+                (0x12BA, 0x0100),
+                (0x12BA, 0x0200),
+                // Wii Guitars
+                (0x1BAD, 0x0004),
+                (0x1BAD, 0x3010),
+                // Santroller
+                (0x1209, 0x2882),
+                // PS4 Guitars
+                (0x0E6F, 0x0173),
+                (0x0E6F, 0x024A),
+                (0x0738, 0x8261),
+            ];
 
-            if (enumeratedDevices.Count <= 0)
+            var enumeratedDevices = HidDeviceStream.Enumerate(filterIds);
+            if (!enumeratedDevices.Any())
             {
                 deviceSelectBox.Items.Add("No devices found!");
                 deviceSelectBox.SelectedIndex = 0;
@@ -40,7 +42,7 @@ namespace FestivalInstrumentMapper
                 return;
             }
 
-            foreach (DeviceInfo enumeratedDevice in enumeratedDevices)
+            foreach (var enumeratedDevice in enumeratedDevices)
             {
                 HidApiDevice hidApiDevice = new(enumeratedDevice);
                 deviceSelectBox.Items.Add(hidApiDevice);
