@@ -128,14 +128,19 @@ namespace FestivalInstrumentMapper
             statusLabel.Text = "Select your device from the list.";
         }
 
+        private void OpenURL(string url)
+        {
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+
         private void githubLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("open https://github.com/InvoxiPlayGames/FestivalInstrumentMapper");
+            OpenURL("https://github.com/InvoxiPlayGames/FestivalInstrumentMapper");
         }
 
         private void faqAboutLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("open https://github.com/InvoxiPlayGames/FestivalInstrumentMapper/wiki/FAQ-and-About");
+            OpenURL("https://github.com/InvoxiPlayGames/FestivalInstrumentMapper/wiki/FAQ-and-About");
         }
 
         private void refreshListButton_Click(object sender, EventArgs e)
