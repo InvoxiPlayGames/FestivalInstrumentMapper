@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FestivalInstrumentMapper
+﻿namespace FestivalInstrumentMapper
 {
     internal enum HidApiDeviceType
     {
@@ -20,42 +14,41 @@ namespace FestivalInstrumentMapper
 
     internal class HidApiDevice : InstrumentMapperDevice
     {
-        private HidDeviceStream _stream;
-        private bool _shouldStop = false;
-        private bool _isRunning = false;
-        private SyntheticController? _controller = null;
+        private readonly HidDeviceStream _stream;
 
+        public HidApiDeviceType Type { get; }
 
-        public HidApiDevice(HidDeviceStream device)
+        public HidApiDevice(HidDeviceStream stream)
         {
-            _stream = device;
+            _stream = stream;
+            Type = GetDeviceType(stream);
         }
 
-        public HidApiDeviceType GetDeviceType()
+        private static HidApiDeviceType GetDeviceType(HidDeviceStream stream)
         {
-            if (_stream.VendorId == 0x1209 && _stream.ProductId == 0x2882)
+            if (stream.VendorId == 0x1209 && stream.ProductId == 0x2882)
             {
-                if (_stream.Revision == 0x0400)
+                if (stream.Revision == 0x0400)
                     return HidApiDeviceType.Santroller_RB;
-                if (_stream.Revision == 0x0300)
+                if (stream.Revision == 0x0300)
                     return HidApiDeviceType.Santroller_GH;
             }
 
-            if (_stream.VendorId == 0x12BA)
+            if (stream.VendorId == 0x12BA)
             {
-                if (_stream.ProductId == 0x0200)
+                if (stream.ProductId == 0x0200)
                     return HidApiDeviceType.PS3_RB;
-                if (_stream.ProductId == 0x0100)
+                if (stream.ProductId == 0x0100)
                     return HidApiDeviceType.PS3_GH;
             }
 
-            if (_stream.VendorId == 0x1BAD && (_stream.ProductId == 0x0004 || _stream.ProductId == 0x3010))
+            if (stream.VendorId == 0x1BAD && (stream.ProductId == 0x0004 || stream.ProductId == 0x3010))
                 return HidApiDeviceType.Wii_RB;
 
-            if (_stream.VendorId == 0x0E6F && (_stream.ProductId == 0x0173 || _stream.ProductId == 0x024A))
+            if (stream.VendorId == 0x0E6F && (stream.ProductId == 0x0173 || stream.ProductId == 0x024A))
                 return HidApiDeviceType.PS4_RB_PDP;
 
-            if (_stream.VendorId == 0x0738 && _stream.ProductId == 0x8261)
+            if (stream.VendorId == 0x0738 && stream.ProductId == 0x8261)
                 return HidApiDeviceType.PS4_RB_MadCatz;
 
             return HidApiDeviceType.Unknown;
@@ -63,7 +56,7 @@ namespace FestivalInstrumentMapper
 
         public override string ToString()
         {
-            string device_name = GetDeviceType() switch
+            string device_name = Type switch
             {
                 HidApiDeviceType.Wii_RB => "Wii Rock Band Guitar",
                 HidApiDeviceType.PS3_RB => "PS3 Rock Band Guitar",
@@ -77,158 +70,60 @@ namespace FestivalInstrumentMapper
             return $"{device_name} ({_stream.Serial})";
         }
 
-        public void OpenDevice()
+        public override void Open()
         {
-            _stream.Open(exclusive: false);
+            if (Type == HidApiDeviceType.Unknown)
+                throw new Exception("That device is unknown?!");
+
+            if (!_stream.Open(exclusive: false))
+                throw new Exception("Failed to open HID device stream");
         }
 
-        public void AssignController(SyntheticController? controller)
+        public override void Close()
         {
-            _controller = controller;
+            // Stream can be re-opened after disposing
+            _stream.Dispose();
         }
 
-        public void Stop()
+        public override void Read(Span<byte> buffer)
         {
-            _shouldStop = true;
+            if (!_stream.Read(buffer))
+                throw new Exception("Failed to read HID device report");
         }
 
-        public bool IsStopping()
+        public override int GetReadLength()
         {
-            return _shouldStop;
-        }
-
-        public bool IsRunning()
-        {
-            return _isRunning;
-        }
-
-        public void RunThread()
-        {
-            switch (GetDeviceType())
+            int expected = Type switch
             {
-                case HidApiDeviceType.Wii_RB:
-                case HidApiDeviceType.PS3_RB:
-                    RunThreadWiiPS3RB();
-                    break;
-                case HidApiDeviceType.PS3_GH:
-                    RunThreadPS3GH();
-                    break;
-                case HidApiDeviceType.PS4_RB_PDP:
-                case HidApiDeviceType.PS4_RB_MadCatz:
-                    RunThreadPS4RB();
-                    break;
-                case HidApiDeviceType.Santroller_RB:
-                    RunThreadSantroller();
-                    break;
-                case HidApiDeviceType.Santroller_GH:
-                    RunThreadSantrollerGH();
-                    break;
-            }
+                HidApiDeviceType.Wii_RB or
+                HidApiDeviceType.PS3_RB => 27,
+                HidApiDeviceType.PS3_GH => 27,
+                HidApiDeviceType.PS4_RB_PDP or
+                HidApiDeviceType.PS4_RB_MadCatz => 78,
+                HidApiDeviceType.Santroller_RB => 7,
+                HidApiDeviceType.Santroller_GH => 7,
+                _ => throw new Exception($"Unhandled device type {Type}")
+            };
+
+            if (_stream.InputLength < expected)
+                throw new Exception($"Device read length ({_stream.InputLength}) is less than expected ({expected})");
+
+            return _stream.InputLength;
         }
 
-        public void RunThreadWiiPS3RB()
+        public override ToGipAction GetGipConverter()
         {
-            byte[] gipreport = new byte[0xE];
-            byte[] hidreport = new byte[27];
-            _isRunning = true;
-            while (true)
+            return Type switch
             {
-                if (!_stream.Read(hidreport))
-                    break;
-
-                ToGip.PS3Wii_RB(hidreport, gipreport);
-                _controller.SendData(gipreport);
-                // unused bit in the gip report
-                if ((gipreport[0] & 0x02) > 0)
-                    _shouldStop = true;
-                if (_shouldStop)
-                    break;
-            }
-            _isRunning = false;
-        }
-
-        public void RunThreadPS3GH()
-        {
-            byte[] gipreport = new byte[0xE];
-            byte[] hidreport = new byte[27];
-            _isRunning = true;
-            while (true)
-            {
-                if (!_stream.Read(hidreport))
-                    break;
-
-                ToGip.PS3_GH(hidreport, gipreport);
-                _controller.SendData(gipreport);
-                // unused bit in the gip report
-                if ((gipreport[0] & 0x02) > 0)
-                    _shouldStop = true;
-                if (_shouldStop)
-                    break;
-            }
-            _isRunning = false;
-        }
-
-        public void RunThreadPS4RB()
-        {
-            byte[] gipreport = new byte[0xE];
-            byte[] hidreport = new byte[78];
-            _isRunning = true;
-            while (true)
-            {
-                if (!_stream.Read(hidreport))
-                    break;
-
-                ToGip.PS4_RB(hidreport, gipreport);
-                _controller.SendData(gipreport);
-                // unused bit in the gip report
-                if ((gipreport[0] & 0x02) > 0)
-                    _shouldStop = true;
-                if (_shouldStop)
-                    break;
-            }
-            _isRunning = false;
-        }
-
-        public void RunThreadSantroller()
-        {
-            byte[] gipreport = new byte[0xE];
-            byte[] hidreport = new byte[27];
-            _isRunning = true;
-            while (true)
-            {
-                if (!_stream.Read(hidreport))
-                    break;
-
-                ToGip.Santroller_RB(hidreport, gipreport);
-                _controller.SendData(gipreport);
-                // unused bit in the gip report
-                if ((gipreport[0] & 0x02) > 0)
-                    _shouldStop = true;
-                if (_shouldStop)
-                    break;
-            }
-            _isRunning = false;
-        }
-
-        public void RunThreadSantrollerGH()
-        {
-            byte[] gipreport = new byte[0xE];
-            byte[] hidreport = new byte[27];
-            _isRunning = true;
-            while (true)
-            {
-                if (!_stream.Read(hidreport))
-                    break;
-
-                ToGip.Santroller_GH(hidreport, gipreport);
-                _controller.SendData(gipreport);
-                // unused bit in the gip report
-                if ((gipreport[0] & 0x02) > 0)
-                    _shouldStop = true;
-                if (_shouldStop)
-                    break;
-            }
-            _isRunning = false;
+                HidApiDeviceType.Wii_RB or
+                HidApiDeviceType.PS3_RB => ToGip.PS3Wii_RB,
+                HidApiDeviceType.PS3_GH => ToGip.PS3_GH,
+                HidApiDeviceType.PS4_RB_PDP or
+                HidApiDeviceType.PS4_RB_MadCatz => ToGip.PS4_RB,
+                HidApiDeviceType.Santroller_RB => ToGip.Santroller_RB,
+                HidApiDeviceType.Santroller_GH => ToGip.Santroller_GH,
+                _ => throw new Exception($"Unhandled device type {Type}")
+            };
         }
     }
 }

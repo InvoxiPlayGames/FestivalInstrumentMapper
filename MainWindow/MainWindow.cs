@@ -4,8 +4,7 @@ namespace FestivalInstrumentMapper
 {
     public partial class MainWindow : Form
     {
-        HidApiDevice? selectedDevice = null;
-        SyntheticController? activeController = null;
+        private MapperThread? mapperThread = null;
 
         public MainWindow()
         {
@@ -57,21 +56,33 @@ namespace FestivalInstrumentMapper
         {
             if (deviceSelectBox.SelectedIndex >= 0)
             {
-                selectedDevice = (HidApiDevice?)deviceSelectBox.SelectedItem;
+                var selectedDevice = (InstrumentMapperDevice?)deviceSelectBox.SelectedItem;
                 if (selectedDevice == null)
                 {
                     MessageBox.Show("Couldn't open the device!");
                     return;
                 }
-                if (selectedDevice.GetDeviceType() == HidApiDeviceType.Unknown)
+
+                try 
                 {
-                    MessageBox.Show($"That device is unknown?!");
+                    var synthController = new SyntheticController();
+                    synthController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
+                    mapperThread = new(selectedDevice, synthController);
+                    mapperThread.Start();
+                }
+                catch (Exception ex)
+                {
+                    mapperThread?.Dispose();
+                    mapperThread = null;
+
+                    statusLabel.Text = $"Failed to initialise emulated controller.\nException: {ex.Message}";
+                    startMappingButton.Enabled = false;
+                    refreshListButton.Enabled = false;
+                    deviceSelectBox.Enabled = false;
+                    startMappingButton.Text = "Error :(";
                     return;
                 }
-                selectedDevice.OpenDevice();
-                selectedDevice.AssignController(activeController);
-                activeController.Connect();
-                Task.Run(selectedDevice.RunThread);
+
                 startMappingButton.Enabled = false;
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
@@ -111,21 +122,6 @@ namespace FestivalInstrumentMapper
                 return;
             }
 
-            try
-            {
-                activeController = new();
-                activeController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
-            }
-            catch (Exception ex)
-            {
-                statusLabel.Text = $"Failed to initialise emulated controller.\nException: {ex.Message}";
-                startMappingButton.Enabled = false;
-                refreshListButton.Enabled = false;
-                deviceSelectBox.Enabled = false;
-                startMappingButton.Text = "Error :(";
-                return;
-            }
-
             RefreshDevicesList();
             statusLabel.Text = "Select your device from the list.";
         }
@@ -152,19 +148,17 @@ namespace FestivalInstrumentMapper
 
         private void disconnectMonitorTimer_Tick(object sender, EventArgs e)
         {
-            if (selectedDevice != null)
+            if (mapperThread != null && !mapperThread.IsRunning)
             {
-                if (!selectedDevice.IsRunning())
-                {
-                    activeController!.Disconnect();
-                    selectedDevice = null;
-                    startMappingButton.Enabled = true;
-                    refreshListButton.Enabled = true;
-                    deviceSelectBox.Enabled = true;
-                    startMappingButton.Text = "Start Mapping";
-                    statusLabel.Text = "Select your device from the list.";
-                    disconnectMonitorTimer.Enabled = false;
-                }
+                mapperThread.Dispose();
+                mapperThread = null;
+
+                startMappingButton.Enabled = true;
+                refreshListButton.Enabled = true;
+                deviceSelectBox.Enabled = true;
+                startMappingButton.Text = "Start Mapping";
+                statusLabel.Text = "Select your device from the list.";
+                disconnectMonitorTimer.Enabled = false;
             }
         }
     }
