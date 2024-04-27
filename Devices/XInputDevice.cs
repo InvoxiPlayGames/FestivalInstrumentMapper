@@ -79,7 +79,7 @@ namespace FestivalInstrumentMapper.Devices
             if (XInput.GetStateEx(_playerIndex, out var state) != 0)
                 throw new Exception($"Xbox 360 instrument with {_playerIndex} has been disconnected!");
 
-            MemoryMarshal.Write(buffer, state);
+            MemoryMarshal.Write(buffer, state.Gamepad);
         }
     }
 }
