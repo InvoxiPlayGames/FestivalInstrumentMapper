@@ -152,7 +152,7 @@ namespace FestivalInstrumentMapper
             while (true)
             {
                 ReadOnlySpan<byte> hidreport = _device.Read(27);
-                ToGip.PS3Wii_RB(hidreport.ToArray(), gipreport);
+                ToGip.PS3Wii_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
                 if ((gipreport[0] & 0x02) > 0)
@@ -170,7 +170,7 @@ namespace FestivalInstrumentMapper
             while (true)
             {
                 ReadOnlySpan<byte> hidreport = _device.Read(27);
-                ToGip.PS3_GH(hidreport.ToArray(), gipreport);
+                ToGip.PS3_GH(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
                 if ((gipreport[0] & 0x02) > 0)
@@ -188,7 +188,7 @@ namespace FestivalInstrumentMapper
             while (true)
             {
                 ReadOnlySpan<byte> hidreport = _device.Read(78);
-                ToGip.PS4_RB(hidreport.ToArray(), gipreport);
+                ToGip.PS4_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
                 if ((gipreport[0] & 0x02) > 0)
@@ -206,7 +206,7 @@ namespace FestivalInstrumentMapper
             while (true)
             {
                 ReadOnlySpan<byte> hidreport = _device.Read(27);
-                ToGip.Santroller_RB(hidreport.ToArray(), gipreport);
+                ToGip.Santroller_RB(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
                 if ((gipreport[0] & 0x02) > 0)
@@ -224,7 +224,7 @@ namespace FestivalInstrumentMapper
             while (true)
             {
                 ReadOnlySpan<byte> hidreport = _device.Read(27);
-                ToGip.Santroller_GH(hidreport.ToArray(), gipreport);
+                ToGip.Santroller_GH(hidreport, gipreport);
                 _controller.SendData(gipreport);
                 // unused bit in the gip report
                 if ((gipreport[0] & 0x02) > 0)

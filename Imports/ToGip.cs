@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace FestivalInstrumentMapper
 {
-    internal class ToGip
+    internal static partial class ToGip
     {
-        [DllImport("PlasticBandToGip.dll", EntryPoint = "PS3Wii_RockBand_ToGip")]
-        public static extern void PS3Wii_RB(byte[] ps3rb_buf, byte[] gip_buf);
+        private const string DllName = "PlasticBandToGip.dll";
 
-        [DllImport("PlasticBandToGip.dll", EntryPoint = "PS3_GuitarHero_ToGip")]
-        public static extern void PS3_GH(byte[] ps3gh_buf, byte[] gip_buf);
+        [LibraryImport(DllName, EntryPoint = "PS3Wii_RockBand_ToGip")]
+        public static partial void PS3Wii_RB(ReadOnlySpan<byte> ps3rb_buf, Span<byte> gip_buf);
 
-        [DllImport("PlasticBandToGip.dll", EntryPoint = "PS4_RockBand_ToGip")]
-        public static extern void PS4_RB(byte[] ps4rb_buf, byte[] gip_buf);
+        [LibraryImport(DllName, EntryPoint = "PS3_GuitarHero_ToGip")]
+        public static partial void PS3_GH(ReadOnlySpan<byte> ps3gh_buf, Span<byte> gip_buf);
 
-        [DllImport("PlasticBandToGip.dll", EntryPoint = "Santroller_RockBand_ToGip")]
-        public static extern void Santroller_RB(byte[] san_buf, byte[] gip_buf);
+        [LibraryImport(DllName, EntryPoint = "PS4_RockBand_ToGip")]
+        public static partial void PS4_RB(ReadOnlySpan<byte> ps4rb_buf, Span<byte> gip_buf);
 
-        [DllImport("PlasticBandToGip.dll", EntryPoint = "Santroller_GuitarHero_ToGip")]
-        public static extern void Santroller_GH(byte[] san_buf, byte[] gip_buf);
+        [LibraryImport(DllName, EntryPoint = "Santroller_RockBand_ToGip")]
+        public static partial void Santroller_RB(ReadOnlySpan<byte> san_buf, Span<byte> gip_buf);
+
+        [LibraryImport(DllName, EntryPoint = "Santroller_GuitarHero_ToGip")]
+        public static partial void Santroller_GH(ReadOnlySpan<byte> san_buf, Span<byte> gip_buf);
     }
 }
