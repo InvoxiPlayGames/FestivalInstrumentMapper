@@ -79,6 +79,7 @@ namespace FestivalInstrumentMapper.Devices
             var span = MemoryMarshal.CreateSpan<XInputGamepad>(ref state.Gamepad, 1);
             var bytes = MemoryMarshal.Cast<XInputGamepad, byte>(span);
             bytes.CopyTo(buffer);
+            Thread.Sleep(1);
         }
     }
 }
