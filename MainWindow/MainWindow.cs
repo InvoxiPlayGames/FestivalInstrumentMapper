@@ -1,3 +1,4 @@
+using FestivalInstrumentMapper.Devices;
 using System.Diagnostics;
 
 namespace FestivalInstrumentMapper
@@ -31,20 +32,27 @@ namespace FestivalInstrumentMapper
                 (0x0738, 0x8261),
             ];
 
-            var enumeratedDevices = HidDeviceStream.Enumerate(filterIds);
-            if (!enumeratedDevices.Any())
+            var enumeratedHidDevices = HidDeviceStream.Enumerate(filterIds);
+
+            foreach (var enumeratedDevice in enumeratedHidDevices)
+            {
+                HidApiDevice hidApiDevice = new(enumeratedDevice);
+                deviceSelectBox.Items.Add(hidApiDevice);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                XInputDevice xinputDevice = new(i);
+                if (xinputDevice.Exists())
+                    deviceSelectBox.Items.Add(xinputDevice);
+            }
+
+            if (deviceSelectBox.Items.Count <= 0)
             {
                 deviceSelectBox.Items.Add("No devices found!");
                 deviceSelectBox.SelectedIndex = 0;
                 deviceSelectBox.Enabled = false;
                 startMappingButton.Enabled = false;
                 return;
-            }
-
-            foreach (var enumeratedDevice in enumeratedDevices)
-            {
-                HidApiDevice hidApiDevice = new(enumeratedDevice);
-                deviceSelectBox.Items.Add(hidApiDevice);
             }
 
             deviceSelectBox.SelectedIndex = 0;
@@ -87,7 +95,7 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
                 startMappingButton.Text = "Mapping...";
-                statusLabel.Text = $"Guitar is being mapped!\nPress the PS/Instrument/Guide button on your guitar to disconnect.";
+                statusLabel.Text = $"Guitar is being mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
                 disconnectMonitorTimer.Enabled = true;
             }
             else

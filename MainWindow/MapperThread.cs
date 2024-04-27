@@ -67,8 +67,8 @@ namespace FestivalInstrumentMapper
                     _controller.SendData(gipReport);
 
                     // We use an unused bit in the GIP report to indicate the guide button,
-                    // which tells us to stop reading
-                    if ((gipReport[0] & 0x02) != 0)
+                    // which tells us to stop reading - we also check if Select+Start are held
+                    if ((gipReport[0] & 0x02) != 0 || (gipReport[0] & 0x0C) == 0x0C)
                         _shouldStop = true;
 
                     Thread.Yield();

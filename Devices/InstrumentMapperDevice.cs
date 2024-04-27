@@ -7,6 +7,7 @@
             Dispose(false);
         }
 
+        public abstract bool Exists();
         public abstract void Open();
         public abstract void Close();
 

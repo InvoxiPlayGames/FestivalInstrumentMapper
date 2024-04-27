@@ -8,6 +8,11 @@ namespace FestivalInstrumentMapper
 {
     internal class LibUsbDevice : InstrumentMapperDevice
     {
+        public override bool Exists()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Open()
         {
             throw new NotImplementedException();

@@ -70,6 +70,8 @@
             return $"{device_name} ({_stream.Serial})";
         }
 
+        public override bool Exists() => true;
+
         public override void Open()
         {
             if (Type == HidApiDeviceType.Unknown)

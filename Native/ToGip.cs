@@ -20,5 +20,11 @@ namespace FestivalInstrumentMapper
 
         [LibraryImport(DllName, EntryPoint = "Santroller_GuitarHero_ToGip")]
         public static partial void Santroller_GH(ReadOnlySpan<byte> san_buf, Span<byte> gip_buf);
+
+        [LibraryImport(DllName, EntryPoint = "XInput_RockBand_ToGip")]
+        public static partial void XInput_RB(ReadOnlySpan<byte> xinput_buf, Span<byte> gip_buf);
+
+        [LibraryImport(DllName, EntryPoint = "XInput_GuitarHero_ToGip")]
+        public static partial void XInput_GH(ReadOnlySpan<byte> xinput_buf, Span<byte> gip_buf);
     }
 }
