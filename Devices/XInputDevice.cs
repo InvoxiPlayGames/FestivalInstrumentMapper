@@ -49,8 +49,7 @@ namespace FestivalInstrumentMapper.Devices
         public override void Open()
         {
             // double check that we can actually read the controller
-            XInputCapabilities caps;
-            if (XInput.GetCapabilities(_playerIndex, out caps) != 0)
+            if (XInput.GetCapabilities(_playerIndex, out _) != 0)
                 throw new Exception($"Xbox 360 instrument with {_playerIndex} has been disconnected!");
         }
 
@@ -74,12 +73,13 @@ namespace FestivalInstrumentMapper.Devices
 
         public override void Read(Span<byte> buffer)
         {
-            XInputState state;
-            XInput.GetStateEx(_playerIndex, out state);
-            var span = MemoryMarshal.CreateSpan<XInputGamepad>(ref state.Gamepad, 1);
-            var bytes = MemoryMarshal.Cast<XInputGamepad, byte>(span);
-            bytes.CopyTo(buffer);
+            // Sleep before reading to prevent a delay between read and conversion/send
             Thread.Sleep(1);
+
+            if (XInput.GetStateEx(_playerIndex, out var state) != 0)
+                throw new Exception($"Xbox 360 instrument with {_playerIndex} has been disconnected!");
+
+            MemoryMarshal.Write(buffer, state);
         }
     }
 }
