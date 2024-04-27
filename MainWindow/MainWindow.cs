@@ -113,6 +113,8 @@ namespace FestivalInstrumentMapper
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
             windowsVersionLabel.Text = $"Windows: {Environment.OSVersion.Version}";
             try
             {
@@ -182,6 +184,19 @@ namespace FestivalInstrumentMapper
         {
             HidHideConfigWindow configWindow = new();
             configWindow.ShowDialog(this);
+        }
+
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            var exception = (Exception)args.ExceptionObject;
+
+            string errorFile = Program.WriteErrorFile(exception);
+            MessageBox.Show(
+                $"An unhandled error has occurred:\n\n{exception.GetFirstLine()}\n\nPlease send the error log '{errorFile}' to the devs. The program will now exit.",
+                "Fatal Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            );
         }
     }
 }

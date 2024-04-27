@@ -74,6 +74,16 @@ namespace FestivalInstrumentMapper
                     Thread.Yield();
                 }
             }
+            catch (Exception ex)
+            {
+                string errorFile = Program.WriteErrorFile(ex);
+                MessageBox.Show(
+                    $"Caught an unhandled mapping exception:\n\n{ex.GetFirstLine()}\n\nPlease send the error log '{errorFile}' to the devs.",
+                    "Mapping Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
             finally
             {
                 _controller.Disconnect();
