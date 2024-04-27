@@ -136,7 +136,7 @@ namespace FestivalInstrumentMapper
 
         private static unsafe bool GetSerial(SafeFileHandle handle, [NotNullWhen(true)] out string? serial)
         {
-            Span<char> buffer = stackalloc char[2048];
+            Span<char> buffer = stackalloc char[4092 / 2]; // Buffer must be <= 4093 bytes
             fixed (char* ptr = buffer)
             {
                 bool result = HidD_GetSerialNumberString(handle, ptr, (uint)(buffer.Length * sizeof(char)));
