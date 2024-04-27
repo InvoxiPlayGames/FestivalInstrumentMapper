@@ -68,6 +68,10 @@ namespace FestivalInstrumentMapper
                     !GetCapabilities(handle, out var capabilities) || !GetSerial(handle, out string? serial))
                     continue;
 
+                // Skip devices that can't be read
+                if (capabilities.InputReportByteLength < 1)
+                    continue;
+
                 // Ignore devices not present in the filter
                 if (filterList != null && !filterList.Any((id) =>
                     id.vendorId == attributes.VendorID && id.productId == attributes.ProductID))
