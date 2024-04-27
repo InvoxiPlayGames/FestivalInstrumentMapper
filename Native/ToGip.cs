@@ -26,5 +26,8 @@ namespace FestivalInstrumentMapper
 
         [LibraryImport(DllName, EntryPoint = "XInput_GuitarHero_ToGip")]
         public static partial void XInput_GH(ReadOnlySpan<byte> xinput_buf, Span<byte> gip_buf);
+
+        [LibraryImport(DllName, EntryPoint = "Raphnet_GuitarHero_ToGip")]
+        public static partial void Raphnet_GH(ReadOnlySpan<byte> raph_buf, Span<byte> gip_buf);
     }
 }

@@ -10,6 +10,7 @@
         PS3_GH,
         PS4_RB_PDP,
         PS4_RB_MadCatz,
+        Raphnet_GH,
     }
 
     internal class HidApiDevice : InstrumentMapperDevice
@@ -51,6 +52,9 @@
             if (stream.VendorId == 0x0738 && stream.ProductId == 0x8261)
                 return HidApiDeviceType.PS4_RB_MadCatz;
 
+            if (stream.VendorId == 0x289B && stream.ProductId == 0x0080)
+                return HidApiDeviceType.Raphnet_GH;
+
             return HidApiDeviceType.Unknown;
         }
 
@@ -65,9 +69,10 @@
                 HidApiDeviceType.PS4_RB_PDP => "PS4 Jaguar/Riffmaster",
                 HidApiDeviceType.Santroller_RB or
                 HidApiDeviceType.Santroller_GH => "Santroller Guitar",
+                HidApiDeviceType.Raphnet_GH => "Raphnet Wii Adapter",
                 _ => $"Unknown - {_stream.VendorId:X4}:{_stream.ProductId:X4}:{_stream.Revision:X4}",
             };
-            return $"{device_name} ({_stream.Serial})";
+            return $"{device_name}";
         }
 
         public override bool Exists() => true;
@@ -104,6 +109,7 @@
                 HidApiDeviceType.PS4_RB_MadCatz => 78,
                 HidApiDeviceType.Santroller_RB => 7,
                 HidApiDeviceType.Santroller_GH => 7,
+                HidApiDeviceType.Raphnet_GH => 15,
                 _ => throw new Exception($"Unhandled device type {Type}")
             };
 
@@ -124,6 +130,7 @@
                 HidApiDeviceType.PS4_RB_MadCatz => ToGip.PS4_RB,
                 HidApiDeviceType.Santroller_RB => ToGip.Santroller_RB,
                 HidApiDeviceType.Santroller_GH => ToGip.Santroller_GH,
+                HidApiDeviceType.Raphnet_GH => ToGip.Raphnet_GH,
                 _ => throw new Exception($"Unhandled device type {Type}")
             };
         }

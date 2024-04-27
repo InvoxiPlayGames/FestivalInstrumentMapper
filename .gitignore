@@ -392,3 +392,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Leftover archives from publishing
+*.zip
+*.tar.gz
