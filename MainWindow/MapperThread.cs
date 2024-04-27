@@ -32,6 +32,7 @@ namespace FestivalInstrumentMapper
                 return;
 
             _device.Open();
+            _controller.Connect();
 
             _shouldStop = false;
             _readThread = new Thread(ReadThread);
@@ -75,6 +76,7 @@ namespace FestivalInstrumentMapper
             }
             finally
             {
+                _controller.Disconnect();
                 _device.Close();
                 _readThread = null;
             }

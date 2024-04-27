@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using Nefarius.Utilities.DeviceManagement.PnP;
@@ -135,7 +136,7 @@ namespace FestivalInstrumentMapper
             fixed (char* ptr = buffer)
             {
                 bool result = HidD_GetSerialNumberString(handle, ptr, (uint)(buffer.Length * sizeof(char)));
-                if (!result)
+                if (!result && Marshal.GetLastPInvokeError() != 0)
                 {
                     LogWin32Error("Could not get HID serial number");
                     serial = null;
