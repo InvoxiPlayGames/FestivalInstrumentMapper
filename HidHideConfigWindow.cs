@@ -88,7 +88,7 @@ namespace FestivalInstrumentMapper
             {
                 hidHideConfigBox.Enabled = false;
                 hidHideConfigLabel.Text = "This option can't be enabled as you don't have HidHide installed. Click the link below to download and install HidHide.";
-                installHidHideLink.Enabled = true;
+                installHidHideLink.Visible = true;
                 return;
             }
 
@@ -102,6 +102,7 @@ namespace FestivalInstrumentMapper
             fortniteExePath = Path.GetFullPath(Path.Combine(fortniteInstallDir, "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe"));
 
             hidHideConfigBox.Checked = IsHidHideSetUpForUs();
+            refreshBlacklistButton.Visible = hidHideConfigBox.Checked;
         }
 
         private void hidHideConfigBox_CheckedChanged(object sender, EventArgs e)
@@ -110,6 +111,12 @@ namespace FestivalInstrumentMapper
                 SetUpHidHideForUs();
             else
                 DisableHidHideForUs();
+            refreshBlacklistButton.Visible = hidHideConfigBox.Checked;
+        }
+
+        private void refreshBlacklistButton_Click(object sender, EventArgs e)
+        {
+            RefreshBlacklistedInstanceIDs();
         }
     }
 }

@@ -94,6 +94,7 @@
             refreshBlacklistButton.Text = "Refresh Blacklist...";
             refreshBlacklistButton.UseVisualStyleBackColor = true;
             refreshBlacklistButton.Visible = false;
+            refreshBlacklistButton.Click += refreshBlacklistButton_Click;
             // 
             // HidHideConfigWindow
             // 

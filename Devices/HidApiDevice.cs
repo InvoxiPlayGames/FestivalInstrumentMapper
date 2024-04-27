@@ -106,7 +106,7 @@
                 HidApiDeviceType.PS3_RB => 27,
                 HidApiDeviceType.PS3_GH => 27,
                 HidApiDeviceType.PS4_RB_PDP or
-                HidApiDeviceType.PS4_RB_MadCatz => 78,
+                HidApiDeviceType.PS4_RB_MadCatz => 64,
                 HidApiDeviceType.Santroller_RB => 7,
                 HidApiDeviceType.Santroller_GH => 7,
                 HidApiDeviceType.Raphnet_GH => 15,
