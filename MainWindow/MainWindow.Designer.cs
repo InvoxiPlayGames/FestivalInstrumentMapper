@@ -42,6 +42,7 @@
             gayLabel = new Label();
             refreshListButton = new Button();
             disconnectMonitorTimer = new System.Windows.Forms.Timer(components);
+            hidHideLinkLabel = new LinkLabel();
             statusGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -156,11 +157,23 @@
             disconnectMonitorTimer.Interval = 1000;
             disconnectMonitorTimer.Tick += disconnectMonitorTimer_Tick;
             // 
+            // hidHideLinkLabel
+            // 
+            hidHideLinkLabel.AutoSize = true;
+            hidHideLinkLabel.Location = new Point(12, 42);
+            hidHideLinkLabel.Name = "hidHideLinkLabel";
+            hidHideLinkLabel.Size = new Size(186, 15);
+            hidHideLinkLabel.TabIndex = 10;
+            hidHideLinkLabel.TabStop = true;
+            hidHideLinkLabel.Text = "Set up Xbox 360 Controller Hiding";
+            hidHideLinkLabel.LinkClicked += hidHideLinkLabel_LinkClicked;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(374, 249);
+            Controls.Add(hidHideLinkLabel);
             Controls.Add(refreshListButton);
             Controls.Add(gayLabel);
             Controls.Add(faqAboutNagLabel);
@@ -197,5 +210,6 @@
         private Label gayLabel;
         private Button refreshListButton;
         private System.Windows.Forms.Timer disconnectMonitorTimer;
+        private LinkLabel hidHideLinkLabel;
     }
 }

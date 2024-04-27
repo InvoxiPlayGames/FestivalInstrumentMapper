@@ -74,7 +74,7 @@ namespace FestivalInstrumentMapper
                     return;
                 }
 
-                try 
+                try
                 {
                     var synthController = new SyntheticController();
                     synthController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
@@ -87,6 +87,9 @@ namespace FestivalInstrumentMapper
                     mapperThread = null;
 
                     statusLabel.Text = $"Failed to initialise emulated controller.\nException: {ex.Message}";
+                    // detect STATUS_ACCESS_DENIED and give a helpful hint
+                    if (ex.Message.Contains("80070005"))
+                        statusLabel.Text += "\nHave you enabled Windows Developer Mode?";
                     startMappingButton.Enabled = false;
                     refreshListButton.Enabled = false;
                     deviceSelectBox.Enabled = false;
@@ -97,6 +100,7 @@ namespace FestivalInstrumentMapper
                 startMappingButton.Enabled = false;
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
+                hidHideLinkLabel.Enabled = false;
                 startMappingButton.Text = "Mapping...";
                 statusLabel.Text = $"Guitar is being mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
                 disconnectMonitorTimer.Enabled = true;
@@ -167,10 +171,17 @@ namespace FestivalInstrumentMapper
                 startMappingButton.Enabled = true;
                 refreshListButton.Enabled = true;
                 deviceSelectBox.Enabled = true;
+                hidHideLinkLabel.Enabled = true;
                 startMappingButton.Text = "Start Mapping";
                 statusLabel.Text = "Select your device from the list.";
                 disconnectMonitorTimer.Enabled = false;
             }
+        }
+
+        private void hidHideLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            HidHideConfigWindow configWindow = new();
+            configWindow.ShowDialog(this);
         }
     }
 }
