@@ -138,9 +138,9 @@
             gayLabel.AutoSize = true;
             gayLabel.Location = new Point(12, 98);
             gayLabel.Name = "gayLabel";
-            gayLabel.Size = new Size(248, 15);
+            gayLabel.Size = new Size(339, 15);
             gayLabel.TabIndex = 8;
-            gayLabel.Text = "This is Free Software, made with <3 by Emma.";
+            gayLabel.Text = "This is Free Software, made with <3 by Emma and contributors.";
             // 
             // refreshListButton
             // 
@@ -188,7 +188,7 @@
             MaximizeBox = false;
             Name = "MainWindow";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FestivalInstrumentMapper";
+            Text = "FestivalInstrumentMapper Beta 1";
             Load += MainWindow_Load;
             statusGroupBox.ResumeLayout(false);
             statusGroupBox.PerformLayout();

@@ -101,8 +101,8 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
                 hidHideLinkLabel.Enabled = false;
-                startMappingButton.Text = "Mapping...";
-                statusLabel.Text = $"Guitar is being mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
+                startMappingButton.Text = "Mapped!";
+                statusLabel.Text = $"Guitar is now mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
                 disconnectMonitorTimer.Enabled = true;
             }
             else
