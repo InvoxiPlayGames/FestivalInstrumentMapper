@@ -103,8 +103,8 @@
             int expected = Type switch
             {
                 HidApiDeviceType.Wii_RB or
-                HidApiDeviceType.PS3_RB => 27,
-                HidApiDeviceType.PS3_GH => 27,
+                HidApiDeviceType.PS3_RB => 28,
+                HidApiDeviceType.PS3_GH => 28,
                 HidApiDeviceType.PS4_RB_PDP or
                 HidApiDeviceType.PS4_RB_MadCatz => 64,
                 HidApiDeviceType.Santroller_RB => 7,
