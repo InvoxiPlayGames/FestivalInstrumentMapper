@@ -29,6 +29,8 @@ Currently, only the latest versions of Windows 10 (10.0.19045.0) and Windows 11 
 
 * Whammy and tilt, for overdrive activations, can be tempremental.
 * Sometimes the app won't fully close and will be stuck in the background.
+* Xbox 360 controllers can cause framerate issues.
+* Versions of Windows with random services removed ("debloated") won't work. This can not be fixed.
 
 Please report any other issues you run into on the [issue tracker](https://github.com/InvoxiPlayGames/FestivalInstrumentMapper/issues).
 When reporting issues, please read the FAQ

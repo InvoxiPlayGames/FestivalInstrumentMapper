@@ -188,7 +188,7 @@
             MaximizeBox = false;
             Name = "MainWindow";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FestivalInstrumentMapper Beta 1";
+            Text = "FestivalInstrumentMapper Beta 2";
             Load += MainWindow_Load;
             statusGroupBox.ResumeLayout(false);
             statusGroupBox.PerformLayout();
