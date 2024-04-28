@@ -31,7 +31,12 @@ namespace FestivalInstrumentMapper
                 (0x0E6F, 0x024A),
                 (0x0738, 0x8261),
                 // Raphnet
-                (0x289B, 0x0080)
+                (0x289B, 0x0028),
+                (0x289B, 0x0029),
+                (0x289B, 0x002B),
+                (0x289B, 0x002C),
+                (0x289B, 0x0080),
+                (0x289B, 0x0081)
             ];
 
             var enumeratedHidDevices = HidDeviceStream.Enumerate(filterIds);
