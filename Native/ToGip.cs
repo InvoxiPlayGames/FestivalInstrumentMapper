@@ -15,6 +15,9 @@ namespace FestivalInstrumentMapper
         [LibraryImport(DllName, EntryPoint = "PS4_RockBand_ToGip")]
         public static partial void PS4_RB(ReadOnlySpan<byte> ps4rb_buf, Span<byte> gip_buf);
 
+        [LibraryImport(DllName, EntryPoint = "PS5_RockBand_ToGip")]
+        public static partial void PS5_RB(ReadOnlySpan<byte> ps5rb_buf, Span<byte> gip_buf);
+
         [LibraryImport(DllName, EntryPoint = "Santroller_RockBand_ToGip")]
         public static partial void Santroller_RB(ReadOnlySpan<byte> san_buf, Span<byte> gip_buf);
 

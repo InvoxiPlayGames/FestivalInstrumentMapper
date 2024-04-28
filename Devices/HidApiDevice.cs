@@ -10,6 +10,7 @@
         PS3_GH,
         PS4_RB_PDP,
         PS4_RB_MadCatz,
+        PS5_RB_PDP,
         Raphnet_GH,
     }
 
@@ -46,8 +47,13 @@
             if (stream.VendorId == 0x1BAD && (stream.ProductId == 0x0004 || stream.ProductId == 0x3010))
                 return HidApiDeviceType.Wii_RB;
 
-            if (stream.VendorId == 0x0E6F && (stream.ProductId == 0x0173 || stream.ProductId == 0x024A))
-                return HidApiDeviceType.PS4_RB_PDP;
+            if (stream.VendorId == 0x0E6F)
+            {
+                if (stream.ProductId == 0x0173 || stream.ProductId == 0x024A)
+                    return HidApiDeviceType.PS4_RB_PDP;
+                if (stream.ProductId == 0x0249)
+                    return HidApiDeviceType.PS5_RB_PDP;
+            }
 
             if (stream.VendorId == 0x0738 && stream.ProductId == 0x8261)
                 return HidApiDeviceType.PS4_RB_MadCatz;
@@ -67,6 +73,7 @@
                 HidApiDeviceType.PS3_GH => "PS3 Guitar Hero Guitar",
                 HidApiDeviceType.PS4_RB_MadCatz => "PS4 Stratocaster",
                 HidApiDeviceType.PS4_RB_PDP => "PS4 Jaguar/Riffmaster",
+                HidApiDeviceType.PS5_RB_PDP => "PS5 Riffmaster",
                 HidApiDeviceType.Santroller_RB or
                 HidApiDeviceType.Santroller_GH => "Santroller Guitar",
                 HidApiDeviceType.Raphnet_GH => "Raphnet Wii Adapter",
@@ -107,6 +114,7 @@
                 HidApiDeviceType.PS3_GH => 28,
                 HidApiDeviceType.PS4_RB_PDP or
                 HidApiDeviceType.PS4_RB_MadCatz => 64,
+                HidApiDeviceType.PS5_RB_PDP => 64,
                 HidApiDeviceType.Santroller_RB => 7,
                 HidApiDeviceType.Santroller_GH => 7,
                 HidApiDeviceType.Raphnet_GH => 15,
@@ -128,6 +136,7 @@
                 HidApiDeviceType.PS3_GH => ToGip.PS3_GH,
                 HidApiDeviceType.PS4_RB_PDP or
                 HidApiDeviceType.PS4_RB_MadCatz => ToGip.PS4_RB,
+                HidApiDeviceType.PS5_RB_PDP => ToGip.PS5_RB,
                 HidApiDeviceType.Santroller_RB => ToGip.Santroller_RB,
                 HidApiDeviceType.Santroller_GH => ToGip.Santroller_GH,
                 HidApiDeviceType.Raphnet_GH => ToGip.Raphnet_GH,
