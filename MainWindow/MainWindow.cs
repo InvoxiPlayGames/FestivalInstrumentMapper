@@ -30,6 +30,8 @@ namespace FestivalInstrumentMapper
                 (0x0E6F, 0x0173),
                 (0x0E6F, 0x024A),
                 (0x0738, 0x8261),
+                // PS5 Guitars
+                (0x0E6F, 0x0249),
                 // Raphnet
                 (0x289B, 0x0028),
                 (0x289B, 0x0029),
