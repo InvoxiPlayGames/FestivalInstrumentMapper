@@ -1,3 +1,7 @@
+using System.IO;
+using System.Threading;
+using System;
+
 namespace FestivalInstrumentMapper
 {
     internal delegate void ToGipAction(ReadOnlySpan<byte> inputBuffer, Span<byte> gipBuffer);
@@ -76,13 +80,7 @@ namespace FestivalInstrumentMapper
             }
             catch (Exception ex)
             {
-                string errorFile = Program.WriteErrorFile(ex);
-                MessageBox.Show(
-                    $"Caught an unhandled mapping exception:\n\n{ex.GetFirstLine()}\n\nPlease send the error log '{errorFile}' to the devs.",
-                    "Mapping Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                WriteErrorFile(ex); // Call the function to handle error
             }
             finally
             {
@@ -90,6 +88,30 @@ namespace FestivalInstrumentMapper
                 _device.Close();
                 _readThread = null;
             }
+        }
+
+        private void WriteErrorFile(Exception ex)
+        {
+            // Get the root directory of the application
+            string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Combine the root directory with the "errors" folder name
+            string errorFolderPath = Path.Combine(rootDirectory, "errors");
+
+            // Create the "errors" folder if it doesn't exist
+            if (!Directory.Exists(errorFolderPath))
+            {
+                Directory.CreateDirectory(errorFolderPath);
+            }
+
+            // Generate a unique file name for the error log
+            string errorFileName = $"error_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
+
+            // Combine the error folder path with the error file name
+            string errorFilePath = Path.Combine(errorFolderPath, errorFileName);
+
+            // Write the exception details to the error file
+            File.WriteAllText(errorFilePath, ex.ToString());
         }
     }
 }
