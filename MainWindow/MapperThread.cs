@@ -92,25 +92,23 @@ namespace FestivalInstrumentMapper
 
         private void WriteErrorFile(Exception ex)
         {
-            // Get the root directory of the application
+            // get root
             string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            // Combine the root directory with the "errors" folder name
             string errorFolderPath = Path.Combine(rootDirectory, "errors");
 
-            // Create the "errors" folder if it doesn't exist
+            //  makes error folder if its not there
             if (!Directory.Exists(errorFolderPath))
             {
                 Directory.CreateDirectory(errorFolderPath);
             }
 
-            // Generate a unique file name for the error log
+            // generate error name
             string errorFileName = $"error_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
 
-            // Combine the error folder path with the error file name
             string errorFilePath = Path.Combine(errorFolderPath, errorFileName);
 
-            // Write the exception details to the error file
+            // write exception details
             File.WriteAllText(errorFilePath, ex.ToString());
         }
     }
