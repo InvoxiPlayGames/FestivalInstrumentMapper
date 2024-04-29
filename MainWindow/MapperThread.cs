@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading;
 using System;
 
@@ -80,7 +79,13 @@ namespace FestivalInstrumentMapper
             }
             catch (Exception ex)
             {
-                WriteErrorFile(ex); // Call the function to handle error
+                string errorFile = Program.WriteErrorFile(ex);
+                MessageBox.Show(
+                    $"Caught an unhandled mapping exception:\n\n{ex.GetFirstLine()}\n\nPlease send the error log '{errorFile}' to the devs.",
+                    "Mapping Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
             }
             finally
             {
@@ -88,28 +93,6 @@ namespace FestivalInstrumentMapper
                 _device.Close();
                 _readThread = null;
             }
-        }
-
-        private void WriteErrorFile(Exception ex)
-        {
-            // get root
-            string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            string errorFolderPath = Path.Combine(rootDirectory, "errors");
-
-            //  makes error folder if its not there
-            if (!Directory.Exists(errorFolderPath))
-            {
-                Directory.CreateDirectory(errorFolderPath);
-            }
-
-            // generate error name
-            string errorFileName = $"error_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
-
-            string errorFilePath = Path.Combine(errorFolderPath, errorFileName);
-
-            // write exception details
-            File.WriteAllText(errorFilePath, ex.ToString());
         }
     }
 }
