@@ -43,6 +43,7 @@
             refreshListButton = new Button();
             disconnectMonitorTimer = new System.Windows.Forms.Timer(components);
             hidHideLinkLabel = new LinkLabel();
+            useSelectForTiltCheckbox = new CheckBox();
             statusGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             // 
             statusGroupBox.Controls.Add(statusLabel);
             statusGroupBox.Controls.Add(windowsVersionLabel);
-            statusGroupBox.Location = new Point(12, 137);
+            statusGroupBox.Location = new Point(12, 165);
             statusGroupBox.Name = "statusGroupBox";
             statusGroupBox.Size = new Size(350, 100);
             statusGroupBox.TabIndex = 3;
@@ -105,7 +106,7 @@
             // faqAboutLinkLabel
             // 
             faqAboutLinkLabel.AutoSize = true;
-            faqAboutLinkLabel.Location = new Point(12, 72);
+            faqAboutLinkLabel.Location = new Point(12, 100);
             faqAboutLinkLabel.Name = "faqAboutLinkLabel";
             faqAboutLinkLabel.Size = new Size(88, 15);
             faqAboutLinkLabel.TabIndex = 5;
@@ -116,7 +117,7 @@
             // githubLinkLabel
             // 
             githubLinkLabel.AutoSize = true;
-            githubLinkLabel.Location = new Point(12, 113);
+            githubLinkLabel.Location = new Point(12, 141);
             githubLinkLabel.Name = "githubLinkLabel";
             githubLinkLabel.Size = new Size(347, 15);
             githubLinkLabel.TabIndex = 6;
@@ -127,7 +128,7 @@
             // faqAboutNagLabel
             // 
             faqAboutNagLabel.AutoSize = true;
-            faqAboutNagLabel.Location = new Point(97, 72);
+            faqAboutNagLabel.Location = new Point(97, 100);
             faqAboutNagLabel.Name = "faqAboutNagLabel";
             faqAboutNagLabel.Size = new Size(160, 15);
             faqAboutNagLabel.TabIndex = 7;
@@ -136,7 +137,7 @@
             // gayLabel
             // 
             gayLabel.AutoSize = true;
-            gayLabel.Location = new Point(12, 98);
+            gayLabel.Location = new Point(12, 126);
             gayLabel.Name = "gayLabel";
             gayLabel.Size = new Size(339, 15);
             gayLabel.TabIndex = 8;
@@ -168,11 +169,22 @@
             hidHideLinkLabel.Text = "Set up Xbox 360 Controller Hiding";
             hidHideLinkLabel.LinkClicked += hidHideLinkLabel_LinkClicked;
             // 
+            // useSelectForTiltCheckbox
+            // 
+            useSelectForTiltCheckbox.AutoSize = true;
+            useSelectForTiltCheckbox.Location = new Point(12, 69);
+            useSelectForTiltCheckbox.Name = "useSelectForTiltCheckbox";
+            useSelectForTiltCheckbox.Size = new Size(233, 19);
+            useSelectForTiltCheckbox.TabIndex = 11;
+            useSelectForTiltCheckbox.Text = "Disable Tilt and use Select for Overdrive";
+            useSelectForTiltCheckbox.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(374, 249);
+            ClientSize = new Size(374, 276);
+            Controls.Add(useSelectForTiltCheckbox);
             Controls.Add(hidHideLinkLabel);
             Controls.Add(refreshListButton);
             Controls.Add(gayLabel);
@@ -188,7 +200,8 @@
             MaximizeBox = false;
             Name = "MainWindow";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FestivalInstrumentMapper Beta 2";
+            Text = "FestivalInstrumentMapper Beta 3";
+            FormClosing += MainWindow_FormClosing;
             Load += MainWindow_Load;
             statusGroupBox.ResumeLayout(false);
             statusGroupBox.PerformLayout();
@@ -211,5 +224,6 @@
         private Button refreshListButton;
         private System.Windows.Forms.Timer disconnectMonitorTimer;
         private LinkLabel hidHideLinkLabel;
+        private CheckBox useSelectForTiltCheckbox;
     }
 }

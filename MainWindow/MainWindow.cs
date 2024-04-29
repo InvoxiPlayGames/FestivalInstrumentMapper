@@ -86,6 +86,7 @@ namespace FestivalInstrumentMapper
                     var synthController = new SyntheticController();
                     synthController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
                     mapperThread = new(selectedDevice, synthController);
+                    mapperThread.RemapSelectToTilt = useSelectForTiltCheckbox.Checked;
                     mapperThread.Start();
                 }
                 catch (Exception ex)
@@ -108,6 +109,7 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
                 hidHideLinkLabel.Enabled = false;
+                useSelectForTiltCheckbox.Enabled = false;
                 startMappingButton.Text = "Mapped!";
                 statusLabel.Text = $"Guitar is now mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
                 disconnectMonitorTimer.Enabled = true;
@@ -181,6 +183,7 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = true;
                 deviceSelectBox.Enabled = true;
                 hidHideLinkLabel.Enabled = true;
+                useSelectForTiltCheckbox.Enabled = true;
                 startMappingButton.Text = "Start Mapping";
                 statusLabel.Text = "Select your device from the list.";
                 disconnectMonitorTimer.Enabled = false;
@@ -204,6 +207,15 @@ namespace FestivalInstrumentMapper
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             );
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (mapperThread != null)
+            {
+                // TODO(Emma): this hangs when using HID until the user clicks a button
+                // mapperThread.Stop();
+            }
         }
     }
 }

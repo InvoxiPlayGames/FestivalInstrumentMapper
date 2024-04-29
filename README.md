@@ -67,3 +67,6 @@ FestivalInstrumentMapper uses the following third-party libraries:
 
 * Nefarius.Drivers.HidHide, licensed under the MIT License.
 * Nefarius.Utilities.DeviceManagement, licensed under the MIT License.
+
+Code is used from [HedgeModManager](https://github.com/thesupersonic16/HedgeModManager/blob/rewrite/HedgeModManager/Epic.cs)
+for Heroic Games Launcher detection, licensed under the MIT License.

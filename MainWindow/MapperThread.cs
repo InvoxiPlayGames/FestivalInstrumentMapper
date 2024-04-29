@@ -12,6 +12,8 @@ namespace FestivalInstrumentMapper
 
         public bool IsRunning => _readThread != null;
 
+        public bool RemapSelectToTilt = false;
+
         public MapperThread(InstrumentMapperDevice device, SyntheticController controller)
         {
             _device = device;
@@ -64,12 +66,22 @@ namespace FestivalInstrumentMapper
                 {
                     _device.Read(inputReport);
                     toGip(inputReport, gipReport);
-                    _controller.SendData(gipReport);
 
                     // We use an unused bit in the GIP report to indicate the guide button,
                     // which tells us to stop reading - we also check if Select+Start are held
                     if ((gipReport[0] & 0x02) != 0 || (gipReport[0] & 0x0C) == 0x0C)
+                    {
                         _shouldStop = true;
+                        gipReport[0] = 0x00; // last input shouldn't be sending buttons
+                    }
+
+                    // A set of hacks that remap Select to Tilt and disables tilt
+                    if (RemapSelectToTilt)
+                    {
+                        gipReport[3] = (byte)(((gipReport[0] & 0x08) == 0x08) ? 0xFF : 0x00); // tilt if select is held
+                        gipReport[0] &= 0xF7; // deselect select
+                    }
+                    _controller.SendData(gipReport);
 
                     Thread.Yield();
                 }
