@@ -92,7 +92,10 @@ namespace FestivalInstrumentMapper
                 return;
             }
 
+            // Check EGL first, then Heroic
             string? fortniteInstallDir = EpicLauncherDetection.GetInstallDirectory("Fortnite");
+            fortniteInstallDir ??= HeroicLauncherDetection.GetInstallDirectory("Fortnite");
+
             if (fortniteInstallDir == null)
             {
                 hidHideConfigBox.Enabled = false;
