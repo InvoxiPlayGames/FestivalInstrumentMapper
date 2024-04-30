@@ -60,7 +60,7 @@ namespace FestivalInstrumentMapper
 
     internal class EpicLauncherDetection
     {
-        public static string? GetInstallDirectory(string appName)
+        public static string? GetInstallDirectory(string appName, string exeName)
         {
             string manifestFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) +
                 "/Epic/EpicGamesLauncher/Data/Manifests";
@@ -80,7 +80,8 @@ namespace FestivalInstrumentMapper
                     string jsonstring = File.ReadAllText(file);
                     EGLManifest? manifest = JsonSerializer.Deserialize<EGLManifest>(jsonstring);
                     if (manifest != null && manifest.AppName != null &&
-                        manifest.AppName.ToLower() == appName.ToLower())
+                        manifest.AppName.ToLower() == appName.ToLower() &&
+                        File.Exists(Path.Combine(manifest!.InstallLocation!, exeName)))
                     {
                         return manifest!.InstallLocation;
                     }

@@ -93,7 +93,7 @@ namespace FestivalInstrumentMapper
             }
 
             // Check EGL first, then Heroic
-            string? fortniteInstallDir = EpicLauncherDetection.GetInstallDirectory("Fortnite");
+            string? fortniteInstallDir = EpicLauncherDetection.GetInstallDirectory("Fortnite", "FortniteGame\\Binaries\\Win64\\FortniteClient-Win64-Shipping.exe");
             fortniteInstallDir ??= HeroicLauncherDetection.GetInstallDirectory("Fortnite");
 
             if (fortniteInstallDir == null)
