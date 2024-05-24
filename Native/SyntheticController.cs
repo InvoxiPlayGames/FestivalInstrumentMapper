@@ -1,4 +1,6 @@
-﻿namespace FestivalInstrumentMapper
+﻿using System.Net.Http.Headers;
+
+namespace FestivalInstrumentMapper
 {
     internal class SyntheticController : IDisposable
     {
@@ -62,7 +64,9 @@
 
         public void SendData(ReadOnlySpan<byte> report)
         {
+
             int rval = GipSyntheticEx.SendReport(_controllerHandle, report);
+
             if (rval != 0)
                 throw new Exception($"Failed to send report. (HRESULT: {rval:X8})");
         }

@@ -22,7 +22,10 @@ namespace FestivalInstrumentMapper
 
         public static string WriteErrorFile(Exception ex)
         {
-            string fileName = $"error_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+            if (!Directory.Exists("Log"))
+                Directory.CreateDirectory("Log");
+
+            string fileName = $"Log/error_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
             File.WriteAllText(fileName, ex.ToString());
             return fileName;
         }

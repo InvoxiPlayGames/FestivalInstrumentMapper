@@ -44,6 +44,7 @@
             disconnectMonitorTimer = new System.Windows.Forms.Timer(components);
             hidHideLinkLabel = new LinkLabel();
             useSelectForTiltCheckbox = new CheckBox();
+            adjustButton = new Button();
             statusGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -179,11 +180,22 @@
             useSelectForTiltCheckbox.Text = "Disable Tilt and use Select for Overdrive";
             useSelectForTiltCheckbox.UseVisualStyleBackColor = true;
             // 
+            // adjustButton
+            // 
+            adjustButton.Location = new Point(299, 65);
+            adjustButton.Name = "adjustButton";
+            adjustButton.Size = new Size(63, 23);
+            adjustButton.TabIndex = 12;
+            adjustButton.Text = "Adjust";
+            adjustButton.UseVisualStyleBackColor = true;
+            adjustButton.Click += adjustButton_Click;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(374, 276);
+            Controls.Add(adjustButton);
             Controls.Add(useSelectForTiltCheckbox);
             Controls.Add(hidHideLinkLabel);
             Controls.Add(refreshListButton);
@@ -225,5 +237,6 @@
         private System.Windows.Forms.Timer disconnectMonitorTimer;
         private LinkLabel hidHideLinkLabel;
         private CheckBox useSelectForTiltCheckbox;
+        private Button adjustButton;
     }
 }

@@ -1,9 +1,13 @@
+using Accessibility;
+using System.Security.Cryptography.X509Certificates;
+
 namespace FestivalInstrumentMapper
 {
     internal delegate void ToGipAction(ReadOnlySpan<byte> inputBuffer, Span<byte> gipBuffer);
 
     internal sealed class MapperThread
     {
+
         private readonly InstrumentMapperDevice _device;
         private readonly SyntheticController _controller;
 
@@ -13,6 +17,9 @@ namespace FestivalInstrumentMapper
         public bool IsRunning => _readThread != null;
 
         public bool RemapSelectToTilt = false;
+
+        public volatile ControllerMapping ControllerMapping = new();
+
 
         public MapperThread(InstrumentMapperDevice device, SyntheticController controller)
         {
@@ -54,19 +61,36 @@ namespace FestivalInstrumentMapper
             // _device.Close();
         }
 
+        public class GuitarEventArgs(GuitarState state) : EventArgs
+        {
+            public GuitarState State = state;
+        }
+        public event EventHandler<GuitarEventArgs>? BeforeControllerTranslate = null;
+        public event EventHandler<GuitarEventArgs>? AfterControllerTranslate = null;
+
         private void ReadThread()
         {
             try
             {
                 Span<byte> inputReport = new byte[_device.GetReadLength()];
-                Span<byte> gipReport = new byte[0xE];
+                Span<byte> gipReport = stackalloc byte[0xE];
+                Span<byte> translatedReport = stackalloc byte[0xE];
+
                 ToGipAction toGip = _device.GetGipConverter();
+
+                GuitarState guitarState = new();
+
+                ControllerMapping controllerMapping = ControllerMapping;
 
                 while (!_shouldStop)
                 {
+                    if (ControllerMapping != controllerMapping)
+                        controllerMapping = ControllerMapping;
+
                     _device.Read(inputReport);
                     toGip(inputReport, gipReport);
 
+                    // TODO REMOVE THIS
                     // We use an unused bit in the GIP report to indicate the guide button,
                     // which tells us to stop reading - we also check if Select+Start are held
                     if ((gipReport[0] & 0x02) != 0 || (gipReport[0] & 0x0C) == 0x0C)
@@ -81,7 +105,19 @@ namespace FestivalInstrumentMapper
                         gipReport[3] = (byte)(((gipReport[0] & 0x08) == 0x08) ? 0xFF : 0x00); // tilt if select is held
                         gipReport[0] &= 0xF7; // deselect select
                     }
-                    _controller.SendData(gipReport);
+                    // END OF TODO
+                    guitarState.Reset();
+
+                    guitarState.Deserialize(gipReport);
+
+                    BeforeControllerTranslate?.Invoke(null, new(guitarState));
+
+                    guitarState.Translate(controllerMapping);
+
+                    AfterControllerTranslate?.Invoke(null, new(guitarState));
+
+                    guitarState.Serialize(ref translatedReport);
+                    _controller.SendData(translatedReport);
 
                     Thread.Yield();
                 }

@@ -122,6 +122,9 @@ namespace FestivalInstrumentMapper
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            if (!Directory.Exists("Profile"))
+                Directory.CreateDirectory("Profile");
+
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             windowsVersionLabel.Text = $"Windows: {Environment.OSVersion.Version}";
@@ -215,6 +218,18 @@ namespace FestivalInstrumentMapper
             {
                 // TODO(Emma): this hangs when using HID until the user clicks a button
                 // mapperThread.Stop();
+            }
+        }
+
+        private void adjustButton_Click(object sender, EventArgs e)
+        {
+            if (mapperThread is null)
+                return;
+            using AdjustMappingWindow form = new AdjustMappingWindow(mapperThread);
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+
             }
         }
     }
