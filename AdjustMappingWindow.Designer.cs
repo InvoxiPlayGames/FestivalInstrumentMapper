@@ -425,7 +425,7 @@
             toolStrip.Items.AddRange(new ToolStripItem[] { addProfileToolStripButton, removeProfileToolStripButton, toolStripSeparator1, saveProfileToolStripButton, profileToolStripComboBox, resetAllMappingsToolStripButton, refreshProfileToolStripButton });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
-            toolStrip.Size = new Size(800, 25);
+            toolStrip.Size = new Size(716, 25);
             toolStrip.TabIndex = 24;
             toolStrip.Text = "toolStrip";
             // 
@@ -606,7 +606,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 542);
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            ClientSize = new Size(716, 479);
             Controls.Add(label16);
             Controls.Add(label17);
             Controls.Add(bindSelectButton);
@@ -634,8 +636,12 @@
             Controls.Add(label1);
             Controls.Add(dPadPreviewControl);
             Controls.Add(fretPreviewControl);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AdjustMappingWindow";
+            ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Adjust Input";
             FormClosing += AdjustMappingWindow_FormClosing;
             Load += AdjustMappingWindow_Load;

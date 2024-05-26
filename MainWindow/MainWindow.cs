@@ -88,6 +88,10 @@ namespace FestivalInstrumentMapper
                     var synthController = new SyntheticController();
                     synthController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
                     mapperThread = new(selectedDevice, synthController);
+
+                    if (Settings.Profile != "< default >")
+                        mapperThread.ControllerMapping = ControllerMapping.Load(Settings.Profile)!;
+
                     mapperThread.Start();
                 }
                 catch (Exception ex)
@@ -129,7 +133,15 @@ namespace FestivalInstrumentMapper
 
             if (!Directory.Exists("Profile"))
                 Directory.CreateDirectory("Profile");
-
+            if (Settings.Profile != "< default >")
+            {
+                if (!File.Exists($"Profile\\{Settings.Profile}.json"))
+                {
+                    MessageBox.Show($"Unable to find profile: \"{Settings.Profile}\". Default settings have been restored.");
+                    Settings.Profile = "< default >";
+                    Settings.Save(Settings);
+                }
+            }
 
             windowsVersionLabel.Text = $"Windows: {Environment.OSVersion.Version}";
             try
@@ -228,12 +240,13 @@ namespace FestivalInstrumentMapper
         {
             if (mapperThread is null)
                 return;
-            using AdjustMappingWindow form = new AdjustMappingWindow(mapperThread);
+            using AdjustMappingWindow form = new AdjustMappingWindow(mapperThread, Settings.Profile);
 
-            if (form.ShowDialog() == DialogResult.OK)
-            {
+            form.ShowDialog();
 
-            }
+            Settings.Profile = form.Profile;
+
+            Settings.Save(Settings);
         }
     }
 }

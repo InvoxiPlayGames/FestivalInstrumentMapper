@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FestivalInstrumentMapper
 {
@@ -26,11 +27,8 @@ namespace FestivalInstrumentMapper
         private bool ignoreTextUpdate = false;
         private bool dropDownClosed = false;
 
-        public AdjustMappingWindow(MapperThread mapperThread)
-        {
-            this.mapperThread = mapperThread;
-            InitializeComponent();
-        }
+
+        private bool initialized = false;
 
         #region Toolstrip
 
@@ -209,6 +207,8 @@ namespace FestivalInstrumentMapper
             else
                 mapperThread.ControllerMapping = ControllerMapping.Load(((string)profileToolStripComboBox!.SelectedItem!))!;
 
+            Profile = (string)profileToolStripComboBox!.SelectedItem!;
+
             bool enabled = profileToolStripComboBox.SelectedIndex != 0;
             bindGreenFretButton.Enabled = enabled;
             bindRedFretButton.Enabled = enabled;
@@ -252,7 +252,7 @@ namespace FestivalInstrumentMapper
 
         private void MapperThread_BeforeControllerTranslate(object? sender, MapperThread.GuitarEventArgs e)
         {
-            if (closing)
+            if (closing || !initialized)
                 return;
 
             translateThreadActive = true;
@@ -353,6 +353,8 @@ namespace FestivalInstrumentMapper
 
         private void MapperThread_AfterControllerTranslate(object? sender, MapperThread.GuitarEventArgs e)
         {
+            if (closing || !initialized)
+                return;
             fretPreviewControl.GreenFretActive = e.State.GreenFret;
             fretPreviewControl.RedFretActive = e.State.RedFret;
             fretPreviewControl.YellowFretActive = e.State.YellowFret;
@@ -370,8 +372,14 @@ namespace FestivalInstrumentMapper
 
         #endregion
 
-        private void AdjustMappingWindow_Load(object sender, EventArgs e)
+        public string Profile { get; set; } = "< default >";
+        public AdjustMappingWindow(MapperThread mapperThread, string profile)
         {
+            initialized = false;
+
+            this.mapperThread = mapperThread;
+            InitializeComponent();
+
             RefreshProfileList();
 
             mapperThread!.BeforeControllerTranslate += MapperThread_BeforeControllerTranslate;
@@ -407,6 +415,20 @@ namespace FestivalInstrumentMapper
             RefreshProfileList();
 
             SetButtonTexts();
+
+            Profile = profile;
+        }
+
+
+        private void AdjustMappingWindow_Load(object sender, EventArgs e)
+        {
+
+            if (!profileToolStripComboBox.Items.Contains(Profile))
+                MessageBox.Show($"Unable to find profile: {Profile}.");
+            else
+                profileToolStripComboBox.SelectedItem = Profile;
+
+            initialized = true;
         }
 
         private void ResetMapping()
@@ -430,7 +452,7 @@ namespace FestivalInstrumentMapper
             string text = "";
             foreach (var binding in buttonBindings)
                 text += $"{binding.ToString()}, ";
-           
+
             if (buttonBindings.Length == 0)
             {
                 control.Text = "< not mapped >";
@@ -659,6 +681,6 @@ namespace FestivalInstrumentMapper
             mapperThread!.ControllerMapping.WhammyInfo.AxisIndex = (ControllerAxis)((NumericUpDown)sender).Value;
         }
 
-        #endregion
+#endregion
     }
 }
