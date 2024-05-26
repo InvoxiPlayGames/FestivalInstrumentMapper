@@ -42,6 +42,7 @@ for any existing issues before submitting a new report.
 * [sanjay900](https://github.com/sanjay900) for documentation help, testing and the amazing Santroller Guitar firmware.
 * [Nefarius](https://github.com/Nefarius) for the HidHide utility and DeviceManagement library.
 * xX760Xx, Acai, JasonParadise and aWiseMoose from Lore Hero for helping test a bunch of different guitars, and being cool.
+* [Vultumast](https://github.com/Vultumast) for the remapping support
 
 ## Building
 
