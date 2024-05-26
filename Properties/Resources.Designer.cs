@@ -103,6 +103,46 @@ namespace FestivalInstrumentMapper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap downPressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("downPressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap downPressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("downPressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap downUnpressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("downUnpressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap downUnpressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("downUnpressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap greenFretPressed_1x {
             get {
                 object obj = ResourceManager.GetObject("greenFretPressed@1x", resourceCulture);
@@ -136,6 +176,46 @@ namespace FestivalInstrumentMapper.Properties {
         internal static System.Drawing.Bitmap greenFretUnpressed_2x {
             get {
                 object obj = ResourceManager.GetObject("greenFretUnpressed@2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap leftPressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("leftPressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap leftPressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("leftPressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap leftUnpressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("leftUnpressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap leftUnpressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("leftUnpressed_2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,6 +313,46 @@ namespace FestivalInstrumentMapper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap rightPressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("rightPressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rightPressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("rightPressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rightUnpressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("rightUnpressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rightUnpressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("rightUnpressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Save_16x {
             get {
                 object obj = ResourceManager.GetObject("Save_16x", resourceCulture);
@@ -266,6 +386,46 @@ namespace FestivalInstrumentMapper.Properties {
         internal static System.Drawing.Bitmap strumbarU {
             get {
                 object obj = ResourceManager.GetObject("strumbarU", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upPressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("upPressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upPressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("upPressed_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upUnpressed_1x {
+            get {
+                object obj = ResourceManager.GetObject("upUnpressed_1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap upUnpressed_2x {
+            get {
+                object obj = ResourceManager.GetObject("upUnpressed_2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

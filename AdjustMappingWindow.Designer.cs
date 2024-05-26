@@ -47,8 +47,8 @@
             bindDPadDownButton = new Button();
             bindDPadLeftButton = new Button();
             bindDPadRightButton = new Button();
-            tiltBindButton = new Button();
-            whammyBindButton = new Button();
+            bindTiltButton = new Button();
+            bindWhammyButton = new Button();
             bindSelectButton = new Button();
             bindStartButton = new Button();
             label6 = new Label();
@@ -69,7 +69,7 @@
             toolStripSeparator1 = new ToolStripSeparator();
             saveProfileToolStripButton = new ToolStripButton();
             profileToolStripComboBox = new ToolStripComboBox();
-            toolStripButton2 = new ToolStripButton();
+            resetAllMappingsToolStripButton = new ToolStripButton();
             refreshProfileToolStripButton = new ToolStripButton();
             groupBox2 = new GroupBox();
             label15 = new Label();
@@ -169,7 +169,7 @@
             bindGreenFretButton.TabIndex = 7;
             commonToolTip.SetToolTip(bindGreenFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindGreenFretButton.UseVisualStyleBackColor = true;
-            bindGreenFretButton.MouseClick += bindButton_MouseClick;
+            bindGreenFretButton.MouseDown += bindButton_MouseDown;
             // 
             // bindRedFretButton
             // 
@@ -179,7 +179,7 @@
             bindRedFretButton.TabIndex = 8;
             commonToolTip.SetToolTip(bindRedFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindRedFretButton.UseVisualStyleBackColor = true;
-            bindRedFretButton.MouseClick += bindButton_MouseClick;
+            bindRedFretButton.MouseDown += bindButton_MouseDown;
             // 
             // bindYellowFretButton
             // 
@@ -189,7 +189,7 @@
             bindYellowFretButton.TabIndex = 9;
             commonToolTip.SetToolTip(bindYellowFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindYellowFretButton.UseVisualStyleBackColor = true;
-            bindYellowFretButton.MouseClick += bindButton_MouseClick;
+            bindYellowFretButton.MouseDown += bindButton_MouseDown;
             // 
             // bindBlueFretButton
             // 
@@ -199,7 +199,7 @@
             bindBlueFretButton.TabIndex = 10;
             commonToolTip.SetToolTip(bindBlueFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindBlueFretButton.UseVisualStyleBackColor = true;
-            bindBlueFretButton.MouseClick += bindButton_MouseClick;
+            bindBlueFretButton.MouseDown += bindButton_MouseDown;
             // 
             // bindOrangeFretButton
             // 
@@ -209,7 +209,7 @@
             bindOrangeFretButton.TabIndex = 11;
             commonToolTip.SetToolTip(bindOrangeFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindOrangeFretButton.UseVisualStyleBackColor = true;
-            bindOrangeFretButton.MouseClick += bindButton_MouseClick;
+            bindOrangeFretButton.MouseDown += bindButton_MouseDown;
             // 
             // bindDPadUpButton
             // 
@@ -219,7 +219,7 @@
             bindDPadUpButton.TabIndex = 12;
             commonToolTip.SetToolTip(bindDPadUpButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadUpButton.UseVisualStyleBackColor = true;
-            bindDPadUpButton.MouseClick += bindButton_MouseClick;
+            bindDPadUpButton.MouseDown += bindButton_MouseDown;
             // 
             // bindDPadDownButton
             // 
@@ -229,7 +229,7 @@
             bindDPadDownButton.TabIndex = 13;
             commonToolTip.SetToolTip(bindDPadDownButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadDownButton.UseVisualStyleBackColor = true;
-            bindDPadDownButton.MouseClick += bindButton_MouseClick;
+            bindDPadDownButton.MouseDown += bindButton_MouseDown;
             // 
             // bindDPadLeftButton
             // 
@@ -239,7 +239,7 @@
             bindDPadLeftButton.TabIndex = 14;
             commonToolTip.SetToolTip(bindDPadLeftButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadLeftButton.UseVisualStyleBackColor = true;
-            bindDPadLeftButton.MouseClick += bindButton_MouseClick;
+            bindDPadLeftButton.MouseDown += bindButton_MouseDown;
             // 
             // bindDPadRightButton
             // 
@@ -249,31 +249,31 @@
             bindDPadRightButton.TabIndex = 15;
             commonToolTip.SetToolTip(bindDPadRightButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadRightButton.UseVisualStyleBackColor = true;
-            bindDPadRightButton.MouseClick += bindButton_MouseClick;
+            bindDPadRightButton.MouseDown += bindButton_MouseDown;
             // 
-            // tiltBindButton
+            // bindTiltButton
             // 
-            tiltBindButton.Enabled = false;
-            tiltBindButton.Location = new Point(146, 50);
-            tiltBindButton.Name = "tiltBindButton";
-            tiltBindButton.Size = new Size(164, 23);
-            tiltBindButton.TabIndex = 21;
-            tiltBindButton.Text = "< disabled >";
-            commonToolTip.SetToolTip(tiltBindButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
-            tiltBindButton.UseVisualStyleBackColor = true;
-            tiltBindButton.Click += tiltBindButton_Click;
+            bindTiltButton.Enabled = false;
+            bindTiltButton.Location = new Point(146, 50);
+            bindTiltButton.Name = "bindTiltButton";
+            bindTiltButton.Size = new Size(164, 23);
+            bindTiltButton.TabIndex = 21;
+            bindTiltButton.Text = "< disabled >";
+            commonToolTip.SetToolTip(bindTiltButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
+            bindTiltButton.UseVisualStyleBackColor = true;
+            bindTiltButton.MouseDown += bindButton_MouseDown;
             // 
-            // whammyBindButton
+            // bindWhammyButton
             // 
-            whammyBindButton.Enabled = false;
-            whammyBindButton.Location = new Point(146, 50);
-            whammyBindButton.Name = "whammyBindButton";
-            whammyBindButton.Size = new Size(164, 23);
-            whammyBindButton.TabIndex = 21;
-            whammyBindButton.Text = "< disabled >";
-            commonToolTip.SetToolTip(whammyBindButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
-            whammyBindButton.UseVisualStyleBackColor = true;
-            whammyBindButton.Click += whammyBindButton_Click;
+            bindWhammyButton.Enabled = false;
+            bindWhammyButton.Location = new Point(146, 50);
+            bindWhammyButton.Name = "bindWhammyButton";
+            bindWhammyButton.Size = new Size(164, 23);
+            bindWhammyButton.TabIndex = 21;
+            bindWhammyButton.Text = "< disabled >";
+            commonToolTip.SetToolTip(bindWhammyButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
+            bindWhammyButton.UseVisualStyleBackColor = true;
+            bindWhammyButton.MouseDown += bindButton_MouseDown;
             // 
             // bindSelectButton
             // 
@@ -283,7 +283,7 @@
             bindSelectButton.TabIndex = 32;
             commonToolTip.SetToolTip(bindSelectButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindSelectButton.UseVisualStyleBackColor = true;
-            bindSelectButton.MouseClick += bindButton_MouseClick;
+            bindSelectButton.MouseDown += bindButton_MouseDown;
             // 
             // bindStartButton
             // 
@@ -293,7 +293,7 @@
             bindStartButton.TabIndex = 31;
             commonToolTip.SetToolTip(bindStartButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindStartButton.UseVisualStyleBackColor = true;
-            bindStartButton.MouseClick += bindButton_MouseClick;
+            bindStartButton.MouseDown += bindButton_MouseDown;
             // 
             // label6
             // 
@@ -338,7 +338,7 @@
             groupBox1.Controls.Add(tiltValueLabel);
             groupBox1.Controls.Add(label10);
             groupBox1.Controls.Add(tiltPressedNumericUpDown);
-            groupBox1.Controls.Add(tiltBindButton);
+            groupBox1.Controls.Add(bindTiltButton);
             groupBox1.Controls.Add(tiltUseButtonRadioButton);
             groupBox1.Controls.Add(tiltUseAxisRadioButton);
             groupBox1.Location = new Point(10, 329);
@@ -360,7 +360,7 @@
             // tiltAxisIDNumericUpDown
             // 
             tiltAxisIDNumericUpDown.Location = new Point(198, 18);
-            tiltAxisIDNumericUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
+            tiltAxisIDNumericUpDown.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
             tiltAxisIDNumericUpDown.Name = "tiltAxisIDNumericUpDown";
             tiltAxisIDNumericUpDown.Size = new Size(112, 23);
             tiltAxisIDNumericUpDown.TabIndex = 31;
@@ -393,7 +393,7 @@
             tiltPressedNumericUpDown.Size = new Size(120, 23);
             tiltPressedNumericUpDown.TabIndex = 26;
             tiltPressedNumericUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
-            tiltPressedNumericUpDown.ValueChanged += tiltPressedNumericUpDown_ValueChanged;
+            tiltPressedNumericUpDown.ValueChanged += UpdateAxisButtonValue;
             // 
             // tiltUseButtonRadioButton
             // 
@@ -422,7 +422,7 @@
             // toolStrip
             // 
             toolStrip.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip.Items.AddRange(new ToolStripItem[] { addProfileToolStripButton, removeProfileToolStripButton, toolStripSeparator1, saveProfileToolStripButton, profileToolStripComboBox, toolStripButton2, refreshProfileToolStripButton });
+            toolStrip.Items.AddRange(new ToolStripItem[] { addProfileToolStripButton, removeProfileToolStripButton, toolStripSeparator1, saveProfileToolStripButton, profileToolStripComboBox, resetAllMappingsToolStripButton, refreshProfileToolStripButton });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(800, 25);
@@ -471,17 +471,20 @@
             profileToolStripComboBox.Name = "profileToolStripComboBox";
             profileToolStripComboBox.Size = new Size(121, 25);
             profileToolStripComboBox.Text = "< default >";
-            profileToolStripComboBox.Click += profileToolStripComboBox_Click;
+            profileToolStripComboBox.DropDownClosed += profileToolStripComboBox_DropDownClosed;
+            profileToolStripComboBox.SelectedIndexChanged += profileToolStripComboBox_SelectedIndexChanged;
+            profileToolStripComboBox.KeyDown += profileToolStripComboBox_KeyDown;
             // 
-            // toolStripButton2
+            // resetAllMappingsToolStripButton
             // 
-            toolStripButton2.Alignment = ToolStripItemAlignment.Right;
-            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
-            toolStripButton2.ImageTransparentColor = Color.Magenta;
-            toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(112, 22);
-            toolStripButton2.Text = "Reset All Mappings";
+            resetAllMappingsToolStripButton.Alignment = ToolStripItemAlignment.Right;
+            resetAllMappingsToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            resetAllMappingsToolStripButton.Image = (Image)resources.GetObject("resetAllMappingsToolStripButton.Image");
+            resetAllMappingsToolStripButton.ImageTransparentColor = Color.Magenta;
+            resetAllMappingsToolStripButton.Name = "resetAllMappingsToolStripButton";
+            resetAllMappingsToolStripButton.Size = new Size(112, 22);
+            resetAllMappingsToolStripButton.Text = "Reset All Mappings";
+            resetAllMappingsToolStripButton.Click += resetAllMappingsToolStripButton_Click;
             // 
             // refreshProfileToolStripButton
             // 
@@ -500,7 +503,7 @@
             groupBox2.Controls.Add(whammyAxisIDNumericUpDown);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(whammyPressedNumericUpDown);
-            groupBox2.Controls.Add(whammyBindButton);
+            groupBox2.Controls.Add(bindWhammyButton);
             groupBox2.Controls.Add(whammyUseButtonRadioButton);
             groupBox2.Controls.Add(whammyUseAxisRadioButton);
             groupBox2.Location = new Point(332, 329);
@@ -531,11 +534,11 @@
             // whammyAxisIDNumericUpDown
             // 
             whammyAxisIDNumericUpDown.Location = new Point(198, 18);
-            whammyAxisIDNumericUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
+            whammyAxisIDNumericUpDown.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
             whammyAxisIDNumericUpDown.Name = "whammyAxisIDNumericUpDown";
             whammyAxisIDNumericUpDown.Size = new Size(112, 23);
             whammyAxisIDNumericUpDown.TabIndex = 33;
-            whammyAxisIDNumericUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            whammyAxisIDNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
             whammyAxisIDNumericUpDown.ValueChanged += whammyAxisIDNumericUpDown_ValueChanged;
             // 
             // label11
@@ -555,7 +558,7 @@
             whammyPressedNumericUpDown.Size = new Size(120, 23);
             whammyPressedNumericUpDown.TabIndex = 26;
             whammyPressedNumericUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
-            whammyPressedNumericUpDown.ValueChanged += whammyPressedNumericUpDown_ValueChanged;
+            whammyPressedNumericUpDown.ValueChanged += UpdateAxisButtonValue;
             // 
             // whammyUseButtonRadioButton
             // 
@@ -674,14 +677,14 @@
         private Label label8;
         private Label label9;
         private GroupBox groupBox1;
-        private Button tiltBindButton;
+        private Button bindTiltButton;
         private RadioButton tiltUseButtonRadioButton;
         private RadioButton tiltUseAxisRadioButton;
         private ToolStrip toolStrip;
         private ToolStripButton addProfileToolStripButton;
         private ToolStripButton removeProfileToolStripButton;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton toolStripButton2;
+        private ToolStripButton resetAllMappingsToolStripButton;
         private ToolStripButton refreshProfileToolStripButton;
         private ToolStripButton saveProfileToolStripButton;
         private Label label10;
@@ -690,7 +693,7 @@
         private Label whammyValueLabel;
         private Label label11;
         private NumericUpDown whammyPressedNumericUpDown;
-        private Button whammyBindButton;
+        private Button bindWhammyButton;
         private RadioButton whammyUseButtonRadioButton;
         private RadioButton whammyUseAxisRadioButton;
         private Label tiltValueLabel;

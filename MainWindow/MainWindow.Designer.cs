@@ -43,7 +43,6 @@
             refreshListButton = new Button();
             disconnectMonitorTimer = new System.Windows.Forms.Timer(components);
             hidHideLinkLabel = new LinkLabel();
-            useSelectForTiltCheckbox = new CheckBox();
             adjustButton = new Button();
             statusGroupBox.SuspendLayout();
             SuspendLayout();
@@ -96,7 +95,7 @@
             // 
             // startMappingButton
             // 
-            startMappingButton.Location = new Point(255, 38);
+            startMappingButton.Location = new Point(12, 65);
             startMappingButton.Name = "startMappingButton";
             startMappingButton.Size = new Size(107, 23);
             startMappingButton.TabIndex = 4;
@@ -170,19 +169,10 @@
             hidHideLinkLabel.Text = "Set up Xbox 360 Controller Hiding";
             hidHideLinkLabel.LinkClicked += hidHideLinkLabel_LinkClicked;
             // 
-            // useSelectForTiltCheckbox
-            // 
-            useSelectForTiltCheckbox.AutoSize = true;
-            useSelectForTiltCheckbox.Location = new Point(12, 69);
-            useSelectForTiltCheckbox.Name = "useSelectForTiltCheckbox";
-            useSelectForTiltCheckbox.Size = new Size(233, 19);
-            useSelectForTiltCheckbox.TabIndex = 11;
-            useSelectForTiltCheckbox.Text = "Disable Tilt and use Select for Overdrive";
-            useSelectForTiltCheckbox.UseVisualStyleBackColor = true;
-            // 
             // adjustButton
             // 
-            adjustButton.Location = new Point(299, 65);
+            adjustButton.Enabled = false;
+            adjustButton.Location = new Point(125, 65);
             adjustButton.Name = "adjustButton";
             adjustButton.Size = new Size(63, 23);
             adjustButton.TabIndex = 12;
@@ -196,7 +186,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(374, 276);
             Controls.Add(adjustButton);
-            Controls.Add(useSelectForTiltCheckbox);
             Controls.Add(hidHideLinkLabel);
             Controls.Add(refreshListButton);
             Controls.Add(gayLabel);
@@ -236,7 +225,6 @@
         private Button refreshListButton;
         private System.Windows.Forms.Timer disconnectMonitorTimer;
         private LinkLabel hidHideLinkLabel;
-        private CheckBox useSelectForTiltCheckbox;
         private Button adjustButton;
     }
 }

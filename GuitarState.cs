@@ -21,7 +21,17 @@ namespace FestivalInstrumentMapper
         DPadRight,
 
         Start,
-        Select
+        Select,
+
+        COUNT // KEEP LAST
+    }
+
+    public enum ControllerAxis
+    {
+        Whammy,
+        Tilt,
+
+        COUNT // KEEP LAST
     }
 
     /// <summary>
@@ -86,7 +96,6 @@ namespace FestivalInstrumentMapper
             buttonStates[9] = Start;
             buttonStates[10] = Select;
 
-
             Reset();
 
 
@@ -105,39 +114,50 @@ namespace FestivalInstrumentMapper
             }
 
             // Translate Axis
-            for (int i = 1; i < 3; i++) // Iterate through each Axis
+            for (int i = 0; i < (int)ControllerAxis.COUNT; i++) // Iterate through each Axis
             {
-                var dstAxis = mapping.GetAxisMapping(i);
+                var dstAxis = mapping.GetAxisMapping((ControllerAxis)(i));
 
                 if (dstAxis is null)
                     continue;
 
-                if (dstAxis.MapToAxis && dstAxis.AxisIndex != 0)
-                    SetAxisValue(i, axis[dstAxis.AxisIndex - 1]);
+                if (dstAxis.MapToAxis)
+                    SetAxisValue((ControllerAxis)i, axis[(int)dstAxis.AxisIndex]);
+                else
+                {
+                    ControllerButtons[] dstMappedButtons = mapping.GetAxisMapping((ControllerAxis)i)!.Buttons!;
 
+                    foreach (var dstMappedButton in dstMappedButtons)
+                    {
+                        if (buttonStates[(int)dstMappedButton])
+                            SetAxisValue((ControllerAxis)i, (float)dstAxis.PressedValue / 100.0f);
+                    }
+                }
             }
+
+
         }
 
-        public void SetAxisValue(int axis, float value)
+        public void SetAxisValue(ControllerAxis axis, float value)
         {
             switch (axis)
             {
-                case ControllerMapping.DefaultWhammyAxisIndex:
+                case ControllerAxis.Whammy:
                     Whammy = value;
                     break;
-                case ControllerMapping.DefaultTiltAxisIndex:
+                case ControllerAxis.Tilt:
                     Tilt = value;
                     break;
             }
             
         }
-        public float GetAxisValue(int axis)
+        public float GetAxisValue(ControllerAxis axis)
         {
             switch (axis)
             {
-                case ControllerMapping.DefaultWhammyAxisIndex:
+                case ControllerAxis.Whammy:
                     return Whammy;
-                case ControllerMapping.DefaultTiltAxisIndex:
+                case ControllerAxis.Tilt:
                     return Tilt;
             }
             return 0;
@@ -145,7 +165,6 @@ namespace FestivalInstrumentMapper
 
         public void Deserialize(ReadOnlySpan<byte> data)
         {
-            Console.WriteLine(data[7].ToString("b8"));
             GreenFret = (data[0] & 0b00010000) != 0;
             RedFret = (data[0] & 0b00100000) != 0;
             YellowFret = (data[0] & 0b10000000) != 0;

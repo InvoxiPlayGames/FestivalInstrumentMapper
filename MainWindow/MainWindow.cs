@@ -7,6 +7,8 @@ namespace FestivalInstrumentMapper
     {
         private MapperThread? mapperThread = null;
 
+        public Settings Settings { get; set; } = new();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -86,7 +88,6 @@ namespace FestivalInstrumentMapper
                     var synthController = new SyntheticController();
                     synthController.SetData(PDPJaguarValues.Arrival, PDPJaguarValues.Metadata);
                     mapperThread = new(selectedDevice, synthController);
-                    mapperThread.RemapSelectToTilt = useSelectForTiltCheckbox.Checked;
                     mapperThread.Start();
                 }
                 catch (Exception ex)
@@ -109,7 +110,7 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = false;
                 deviceSelectBox.Enabled = false;
                 hidHideLinkLabel.Enabled = false;
-                useSelectForTiltCheckbox.Enabled = false;
+                adjustButton.Enabled = true;
                 startMappingButton.Text = "Mapped!";
                 statusLabel.Text = $"Guitar is now mapped!\nPress the PS/Instrument/Guide button, or both select and start, on your guitar to disconnect.";
                 disconnectMonitorTimer.Enabled = true;
@@ -122,10 +123,13 @@ namespace FestivalInstrumentMapper
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+            Settings = Settings.Load();
+
             if (!Directory.Exists("Profile"))
                 Directory.CreateDirectory("Profile");
 
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             windowsVersionLabel.Text = $"Windows: {Environment.OSVersion.Version}";
             try
@@ -186,7 +190,7 @@ namespace FestivalInstrumentMapper
                 refreshListButton.Enabled = true;
                 deviceSelectBox.Enabled = true;
                 hidHideLinkLabel.Enabled = true;
-                useSelectForTiltCheckbox.Enabled = true;
+                adjustButton.Enabled = false;
                 startMappingButton.Text = "Start Mapping";
                 statusLabel.Text = "Select your device from the list.";
                 disconnectMonitorTimer.Enabled = false;
@@ -216,8 +220,7 @@ namespace FestivalInstrumentMapper
         {
             if (mapperThread != null)
             {
-                // TODO(Emma): this hangs when using HID until the user clicks a button
-                // mapperThread.Stop();
+                mapperThread.Stop();
             }
         }
 

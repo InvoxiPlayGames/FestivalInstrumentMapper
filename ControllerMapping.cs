@@ -11,31 +11,37 @@ namespace FestivalInstrumentMapper
     /// </summary>
     public class ControllerMapping
     {
-        public const byte DefaultWhammyAxisIndex = 1;
-        public const byte DefaultTiltAxisIndex = 2;
-
-        public class AxisMapping(byte axisIndex)
+        public ControllerMapping()
         {
+
+        }
+
+        public class AxisMapping
+        {
+            public AxisMapping()
+            {
+
+            }
+            public AxisMapping(ControllerAxis axisIndex)
+            {
+                AxisIndex = axisIndex;
+            }
+
             public bool MapToAxis { get; set; } = true;
-            public byte AxisIndex { get; set; } = axisIndex;
+            public ControllerAxis AxisIndex { get; set; } = ControllerAxis.Whammy;
             public ControllerButtons[] Buttons { get; set; } = Array.Empty<ControllerButtons>();
+            public byte PressedValue { get; set; } = 100;
         }
 
-        public void Write()
-        {
+        public static void Save(string name, ControllerMapping mapping) => File.WriteAllText($"Profile\\{name}.json", System.Text.Json.JsonSerializer.Serialize(mapping, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }));
 
-        }
+        public static ControllerMapping? Load(string name) => System.Text.Json.JsonSerializer.Deserialize<ControllerMapping>(File.ReadAllText($"Profile\\{name}.json"));
 
-        public void Read()
-        {
-
-        }
-
-        public ControllerButtons[] GreenFret = [ ControllerButtons.GreenFret ];
-        public ControllerButtons[] RedFret = [ ControllerButtons.RedFret];
-        public ControllerButtons[] YellowFret = [ ControllerButtons.YellowFret ];
-        public ControllerButtons[] BlueFret = [ ControllerButtons.BlueFret ];
-        public ControllerButtons[] OrangeFret = [ ControllerButtons.OrangeFret ];
+        public ControllerButtons[] GreenFret { get; set; } = [ ControllerButtons.GreenFret ];
+        public ControllerButtons[] RedFret { get; set; } = [ ControllerButtons.RedFret];
+        public ControllerButtons[] YellowFret { get; set; } = [ ControllerButtons.YellowFret ];
+        public ControllerButtons[] BlueFret { get; set; } = [ ControllerButtons.BlueFret ];
+        public ControllerButtons[] OrangeFret { get; set; }  = [ ControllerButtons.OrangeFret ];
 
         public ControllerButtons[] DPadUp { get; set; } = [ ControllerButtons.DPadUp ];
         public ControllerButtons[] DPadDown { get; set; } = [ ControllerButtons.DPadDown ];
@@ -45,8 +51,8 @@ namespace FestivalInstrumentMapper
         public ControllerButtons[] Start { get; set; } = [ ControllerButtons.Start ];
         public ControllerButtons[] Select { get; set; } = [ ControllerButtons.Select ];
 
-        public AxisMapping WhammyInfo { get; private set; } = new(DefaultWhammyAxisIndex);
-        public AxisMapping TiltInfo { get; private set; } = new(DefaultTiltAxisIndex);
+        public AxisMapping WhammyInfo { get; set; } = new(ControllerAxis.Whammy);
+        public AxisMapping TiltInfo { get; set; } = new(ControllerAxis.Tilt);
 
         
         public void SetButtonMapping(ControllerButtons destinationButton, ControllerButtons[] sourceButtons)
@@ -88,6 +94,19 @@ namespace FestivalInstrumentMapper
                     break;
             }
         }
+        public void SetButtonMapping(ControllerAxis destinationAxis, ControllerButtons[] sourceButtons)
+        {
+            switch (destinationAxis)
+            {
+                case ControllerAxis.Whammy:
+                    WhammyInfo.Buttons = sourceButtons;
+                    break;
+                case ControllerAxis.Tilt:
+                    TiltInfo.Buttons = sourceButtons;
+                    break;
+            }
+        }
+
         public ControllerButtons[] GetButtonMapping(ControllerButtons button)
         {
             switch (button)
@@ -120,20 +139,16 @@ namespace FestivalInstrumentMapper
         }
 
         
-        public AxisMapping? GetAxisMapping(int index)
+        public AxisMapping? GetAxisMapping(ControllerAxis axis)
         {
-            switch (index)
+            switch (axis)
             {
-                case 0:
-                    return null;
-                case DefaultWhammyAxisIndex:
+                case ControllerAxis.Whammy:
                     return WhammyInfo;
-                case DefaultTiltAxisIndex:
+                case ControllerAxis.Tilt:
                     return TiltInfo;
-                default:
-                    throw new ArgumentException(nameof(index));
-
             }
+            return null;
         }
 
         public void Reset()
@@ -152,8 +167,8 @@ namespace FestivalInstrumentMapper
             Start = [ ControllerButtons.Start ];
             Select  = [ ControllerButtons.Select ];
 
-            WhammyInfo.AxisIndex = DefaultWhammyAxisIndex;
-            TiltInfo.AxisIndex = DefaultTiltAxisIndex;
+            WhammyInfo.AxisIndex = ControllerAxis.Whammy;
+            TiltInfo.AxisIndex = ControllerAxis.Tilt;
         }
 
     }

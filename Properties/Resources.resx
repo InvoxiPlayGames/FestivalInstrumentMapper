@@ -130,6 +130,18 @@
   <data name="blueFretUnpressed@2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Frets\blueFretUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="downPressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\downPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="downPressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\downPressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="downUnpressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\downUnpressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="downUnpressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\downUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="greenFretPressed@1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Frets\greenFretPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -141,6 +153,18 @@
   </data>
   <data name="greenFretUnpressed@2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Frets\greenFretUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leftPressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\leftPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leftPressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\leftPressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leftUnpressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\leftUnpressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="leftUnpressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\leftUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="orangeFretPressed@1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Frets\orangeFretPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,6 +193,18 @@
   <data name="Refresh_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Refresh_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="rightPressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\rightPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rightPressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\rightPressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rightUnpressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\rightUnpressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rightUnpressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\rightUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Save_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Save_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -180,6 +216,18 @@
   </data>
   <data name="strumbarU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Strumbar\strumbarU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upPressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\upPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upPressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\upPressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upUnpressed_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\upUnpressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upUnpressed_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DPad\upUnpressed@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="yellowFretPressed@1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Frets\yellowFretPressed@1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

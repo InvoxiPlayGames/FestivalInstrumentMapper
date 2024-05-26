@@ -67,63 +67,19 @@ namespace FestivalInstrumentMapper.Controls
         {
             e.Graphics.Clear(this.BackColor);
 
-            float dpadWidth = (float)Width / 4.0f;
-            float triangleSize = dpadWidth / 2.0f;
+            using Bitmap up = DPadUp ? Properties.Resources.upPressed_1x : Properties.Resources.upUnpressed_1x;
+            using Bitmap down = DPadDown ? Properties.Resources.downPressed_1x : Properties.Resources.downUnpressed_1x;
+            using Bitmap left = DPadLeft ? Properties.Resources.leftPressed_1x : Properties.Resources.leftUnpressed_1x;
+            using Bitmap right = DPadRight ? Properties.Resources.rightPressed_1x : Properties.Resources.rightUnpressed_1x;
 
-            RectangleF[] bgRects =
-            {
-                new((Width / 2.0f) - (dpadWidth / 2.0f), 0.0f, dpadWidth, Height),
-                new(0, (Height / 2.0f) - (dpadWidth / 2.0f), Width, dpadWidth)
-            };
+            float halfWidth = Width / 2.0f;
+            float halfHeight = Height / 2.0f;
 
-            PointF[][] trianglePoints = [
-                [ 
-                    new PointF(bgRects[0].Left + triangleSize, bgRects[0].Top + triangleSize / 2.0f), 
-                    new PointF(bgRects[0].Left + triangleSize / 2.0f, bgRects[0].Top + triangleSize), 
-                    new PointF(bgRects[0].Left + triangleSize * 1.5f, bgRects[0].Top + triangleSize) 
-                ], // Up
-                [
-                    new PointF(bgRects[0].Left + triangleSize, bgRects[0].Bottom - triangleSize / 2.0f),
-                    new PointF(bgRects[0].Left + triangleSize / 2.0f, bgRects[0].Bottom - triangleSize),
-                    new PointF(bgRects[0].Left + triangleSize * 1.5f, bgRects[0].Bottom - triangleSize)
-                ], // Down
-                [
-                    new PointF(bgRects[1].Left + triangleSize / 2.0f, bgRects[1].Top + triangleSize),
-                    new PointF(bgRects[1].Left + triangleSize, bgRects[1].Top + triangleSize / 2.0f),
-                    new PointF(bgRects[1].Left + triangleSize, bgRects[1].Top + triangleSize * 1.5f),
-                ], // Left
-                [
-                    new PointF(bgRects[1].Right - triangleSize / 2.0f, bgRects[1].Top + triangleSize),
-                    new PointF(bgRects[1].Right - triangleSize, bgRects[1].Top + triangleSize / 2.0f),
-                    new PointF(bgRects[1].Right - triangleSize, bgRects[1].Top + triangleSize * 1.5f),
-                ], // Right
-            ];
+            e.Graphics.DrawImage(up, new RectangleF(halfWidth - (up.Width  * 0.5f), 0, up.Width , up.Height ));
+            e.Graphics.DrawImage(down, new RectangleF(halfWidth - (down.Width * 0.5f), Height - (down.Height ), down.Width , down.Height ));
 
-            e.Graphics.FillRectangles(Brushes.Black, bgRects);
-
-            foreach (var tri in trianglePoints)
-                e.Graphics.FillPolygon(Brushes.White, tri);
-
-            List<RectangleF> activeRects = [];
-            List<PointF[]> activeTriangles = [];
-
-            if (DPadUp)
-            {
-                activeRects.Add(new(bgRects[0].X + 4.0f, bgRects[0].Y + 4.0f, bgRects[0].Width - 8.0f, bgRects[1].Y - 4.0f));
-                activeTriangles.Add(trianglePoints[0]);
-            }
-            if (DPadDown)
-            {
-                activeRects.Add(new(bgRects[0].X + 4.0f, bgRects[1].Bottom, bgRects[0].Width - 8.0f, bgRects[0].X - 4.0f));
-                activeTriangles.Add(trianglePoints[1]);
-            }
-            if (activeRects.Count > 0)
-            {
-                e.Graphics.FillRectangles(Brushes.White, activeRects.ToArray());
-
-                foreach (var tri in activeTriangles)
-                    e.Graphics.FillPolygon(Brushes.Black, tri);
-            }
+            e.Graphics.DrawImage(left, new RectangleF(0,                              halfHeight - (left.Height  * 0.5f), left.Width , left.Height ));
+            e.Graphics.DrawImage(right, new RectangleF(Width - (right.Width ), halfHeight - (right.Height * 0.5f), right.Width , right.Height ));
         }
     }
 }

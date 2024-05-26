@@ -16,8 +16,6 @@ namespace FestivalInstrumentMapper
 
         public bool IsRunning => _readThread != null;
 
-        public bool RemapSelectToTilt = false;
-
         public volatile ControllerMapping ControllerMapping = new();
 
 
@@ -54,7 +52,6 @@ namespace FestivalInstrumentMapper
                 return;
 
             _shouldStop = true;
-            _readThread.Join();
 
             // Automatically done by the thread
             // _readThread = null;
@@ -99,12 +96,6 @@ namespace FestivalInstrumentMapper
                         gipReport[0] = 0x00; // last input shouldn't be sending buttons
                     }
 
-                    // A set of hacks that remap Select to Tilt and disables tilt
-                    if (RemapSelectToTilt)
-                    {
-                        gipReport[3] = (byte)(((gipReport[0] & 0x08) == 0x08) ? 0xFF : 0x00); // tilt if select is held
-                        gipReport[0] &= 0xF7; // deselect select
-                    }
                     // END OF TODO
                     guitarState.Reset();
 
