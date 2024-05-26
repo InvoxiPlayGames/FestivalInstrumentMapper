@@ -18,6 +18,7 @@ namespace FestivalInstrumentMapper
 
         public volatile ControllerMapping ControllerMapping = new();
 
+        private volatile bool threadStopped = false;
 
         public MapperThread(InstrumentMapperDevice device, SyntheticController controller)
         {
@@ -53,6 +54,10 @@ namespace FestivalInstrumentMapper
 
             _shouldStop = true;
 
+            while (!threadStopped)
+            {
+                // wait
+            }
             // Automatically done by the thread
             // _readThread = null;
             // _device.Close();
@@ -125,6 +130,7 @@ namespace FestivalInstrumentMapper
             }
             finally
             {
+                threadStopped = true;
                 _controller.Disconnect();
                 _device.Close();
                 _readThread = null;
