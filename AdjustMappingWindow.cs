@@ -1,5 +1,6 @@
 ﻿using FestivalInstrumentMapper.Controls;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,9 @@ namespace FestivalInstrumentMapper
 
         private volatile bool closing = false;
         private volatile bool translateThreadActive = false;
+
+        private volatile bool prev_StartState = false;
+        private volatile bool prev_SelectState = false;
 
         public AdjustMappingWindow(MapperThread mapperThread)
         {
@@ -76,6 +80,14 @@ namespace FestivalInstrumentMapper
                     UpdateInputWaiter(e.State.YellowFret, fretPreviewControl.YellowFretActive, ControllerButtons.YellowFret);
                     UpdateInputWaiter(e.State.BlueFret, fretPreviewControl.BlueFretActive, ControllerButtons.BlueFret);
                     UpdateInputWaiter(e.State.OrangeFret, fretPreviewControl.OrangeFretActive, ControllerButtons.OrangeFret);
+
+                    UpdateInputWaiter(e.State.DPadUp, dPadPreviewControl.DPadUp, ControllerButtons.DPadUp);
+                    UpdateInputWaiter(e.State.DPadDown, dPadPreviewControl.DPadDown, ControllerButtons.DPadDown);
+                    UpdateInputWaiter(e.State.DPadLeft, dPadPreviewControl.DPadLeft, ControllerButtons.DPadLeft);
+                    UpdateInputWaiter(e.State.DPadRight, dPadPreviewControl.DPadRight, ControllerButtons.DPadRight);
+
+                    UpdateInputWaiter(e.State.Start, prev_StartState, ControllerButtons.Start);
+                    UpdateInputWaiter(e.State.Start, prev_SelectState, ControllerButtons.Select);
                 }));
             }
 
@@ -102,17 +114,22 @@ namespace FestivalInstrumentMapper
                         SetButtonShadeIfPressed(bindYellowFretButton);
                         SetButtonShadeIfPressed(bindBlueFretButton);
                         SetButtonShadeIfPressed(bindOrangeFretButton);
+
+                        SetButtonShadeIfPressed(bindDPadUpButton);
+                        SetButtonShadeIfPressed(bindDPadDownButton);
+                        SetButtonShadeIfPressed(bindDPadLeftButton);
+                        SetButtonShadeIfPressed(bindDPadRightButton);
+
+                        SetButtonShadeIfPressed(bindStartButton);
+                        SetButtonShadeIfPressed(bindSelectButton);
                     }
 
+                    Label[] labels = [whammyValueLabel, tiltValueLabel];
+
+                    for (int i = 1; i < 3; i++)
+                        labels[i - 1].Text = e.State.GetAxisValue(i).ToString();
                 }
 
-                strumbarPreview.StrumbarPosition = e.State.StrumbarPosition;
-
-                Label[] labels = [ whammyValueLabel, tiltValueLabel ];
-
-                for (int i = 1; i < 3; i++)
-                    labels[i - 1].Text = e.State.GetAxisValue(i).ToString();
-                
             }));
             translateThreadActive = false;
 
@@ -160,6 +177,9 @@ namespace FestivalInstrumentMapper
             dPadPreviewControl.DPadDown = e.State.DPadDown;
             dPadPreviewControl.DPadLeft = e.State.DPadLeft;
             dPadPreviewControl.DPadRight = e.State.DPadRight;
+
+            prev_StartState = e.State.Start;
+            prev_SelectState = e.State.Select;
         }
 
         #endregion
@@ -168,6 +188,7 @@ namespace FestivalInstrumentMapper
         {
             mapperThread!.BeforeControllerTranslate += MapperThread_BeforeControllerTranslate;
             mapperThread!.AfterControllerTranslate += MapperThread_AfterControllerTranslate;
+
             // Vultu: Map for invokes later
             bindGreenFretButton.Tag = ControllerButtons.GreenFret;
             bindRedFretButton.Tag = ControllerButtons.RedFret;
@@ -175,21 +196,19 @@ namespace FestivalInstrumentMapper
             bindBlueFretButton.Tag = ControllerButtons.BlueFret;
             bindOrangeFretButton.Tag = ControllerButtons.OrangeFret;
 
-            axisMapWhammyComboBox.SelectedIndex = 1;
-            axisMapTiltComboBox.SelectedIndex = 2;
+            bindDPadUpButton.Tag = ControllerButtons.DPadUp;
+            bindDPadDownButton.Tag = ControllerButtons.DPadDown;
+            bindDPadLeftButton.Tag = ControllerButtons.DPadLeft;
+            bindDPadRightButton.Tag = ControllerButtons.DPadRight;
 
-            SetButtonText(bindGreenFretButton, mapperThread!.ControllerMapping.GreenFret);
-            SetButtonText(bindRedFretButton, mapperThread!.ControllerMapping.RedFret);
-            SetButtonText(bindYellowFretButton, mapperThread!.ControllerMapping.YellowFret);
-            SetButtonText(bindBlueFretButton, mapperThread!.ControllerMapping.BlueFret);
-            SetButtonText(bindOrangeFretButton, mapperThread!.ControllerMapping.OrangeFret);
-
-            SetButtonText(bindDPadUpButton, mapperThread!.ControllerMapping.DPadUp);
-            SetButtonText(bindDPadDownButton, mapperThread!.ControllerMapping.DPadDown);
-            SetButtonText(bindDPadLeftButton, mapperThread!.ControllerMapping.DPadLeft);
-            SetButtonText(bindDPadRightButton, mapperThread!.ControllerMapping.DPadRight);
+            bindStartButton.Tag = ControllerButtons.Start;
+            bindSelectButton.Tag = ControllerButtons.Select;
 
 
+            whammyAxisIDNumericUpDown.Value = ControllerMapping.DefaultWhammyAxisIndex;
+            tiltAxisIDNumericUpDown.Value = ControllerMapping.DefaultTiltAxisIndex;
+
+            SetButtonTexts();
         }
 
 
@@ -197,8 +216,24 @@ namespace FestivalInstrumentMapper
         {
             mapperThread!.ControllerMapping.Reset();
 
-            axisMapWhammyComboBox.SelectedIndex = 1;
-            axisMapTiltComboBox.SelectedIndex = 2;
+            whammyAxisIDNumericUpDown.Value = ControllerMapping.DefaultWhammyAxisIndex;
+            tiltAxisIDNumericUpDown.Value = ControllerMapping.DefaultTiltAxisIndex;
+            SetButtonTexts();
+        }
+        private void SetButtonText(Button button, ControllerButtons[] buttonBindings)
+        {
+            string text = "";
+            foreach (var binding in buttonBindings)
+                text += $"{binding.ToString()}, ";
+
+            button.Text = text.Substring(0, text.Length - 2);
+
+        }
+
+        private void SetButtonTexts()
+        {
+            tiltAxisIDNumericUpDown.Value = ControllerMapping.DefaultTiltAxisIndex;
+
             SetButtonText(bindGreenFretButton, mapperThread!.ControllerMapping.GreenFret);
             SetButtonText(bindRedFretButton, mapperThread!.ControllerMapping.RedFret);
             SetButtonText(bindYellowFretButton, mapperThread!.ControllerMapping.YellowFret);
@@ -209,6 +244,9 @@ namespace FestivalInstrumentMapper
             SetButtonText(bindDPadDownButton, mapperThread!.ControllerMapping.DPadDown);
             SetButtonText(bindDPadLeftButton, mapperThread!.ControllerMapping.DPadLeft);
             SetButtonText(bindDPadRightButton, mapperThread!.ControllerMapping.DPadRight);
+
+            SetButtonText(bindStartButton, mapperThread!.ControllerMapping.Start);
+            SetButtonText(bindSelectButton, mapperThread!.ControllerMapping.Select);
         }
 
         private void AdjustMappingWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -255,23 +293,14 @@ namespace FestivalInstrumentMapper
                 buttonWaitingForInput = null;
         }
 
-        private void SetButtonText(Button button, ControllerButtons[] buttonBindings)
+        private void bindButton_MouseClick(object sender, MouseEventArgs e)
         {
-            string text = "";
-            foreach (var binding in buttonBindings)
-                text += $"{binding.ToString()}, ";
+            Button source = sender as Button;
 
-            button.Text = text.Substring(0, text.Length - 2);
-
-        }
-
-        #region Fret Buttons
-        private void bindGreenFretButton_MouseClick(object sender, MouseEventArgs e)
-        {
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    ((Button)sender).Text = "Press any Button...";
+                    source.Text = "Press any Button...";
                     buttonWaitingForInput = (Button)sender;
                     return;
                 case MouseButtons.Right:
@@ -280,111 +309,22 @@ namespace FestivalInstrumentMapper
                     break;
             }
 
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.GreenFret);
-        }
 
-        private void bindRedFretButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    ((Button)sender).Text = "Press any Button...";
-                    buttonWaitingForInput = (Button)sender;
-                    return;
-                case MouseButtons.Right:
-                    break;
-                case MouseButtons.Middle:
-                    break;
-            }
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.RedFret);
-        }
-
-        private void bindYellowFretButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    ((Button)sender).Text = "Press any Button...";
-                    buttonWaitingForInput = (Button)sender;
-                    return;
-                case MouseButtons.Right:
-                    break;
-                case MouseButtons.Middle:
-                    break;
-            }
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.YellowFret);
-        }
-
-        private void bindBlueFretButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    ((Button)sender).Text = "Press any Button...";
-                    buttonWaitingForInput = (Button)sender;
-                    return;
-                case MouseButtons.Right:
-                    break;
-                case MouseButtons.Middle:
-                    break;
-            }
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.BlueFret);
-        }
-
-        private void bindOrangeFretButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    ((Button)sender).Text = "Press any Button...";
-                    buttonWaitingForInput = (Button)sender;
-                    return;
-                case MouseButtons.Right:
-                    break;
-                case MouseButtons.Middle:
-                    break;
-            }
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.OrangeFret);
-        }
-        #endregion
-
-        #region DPad Buttons
-        private void bindDPadUpButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.DPadUp);
-        }
-
-        private void bindDPadDownButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.DPadDown);
-        }
-
-        private void bindDPadLeftButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.DPadLeft);
-        }
-
-        private void bindDPadRightButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            SetButtonText((Button)sender, mapperThread!.ControllerMapping.DPadRight);
-        }
-
-        #endregion
-
-        private void FretButton_TextChanged(object sender, EventArgs e)
-        {
-
+            if (source.Tag is null)
+                return;
+            if (source.Tag is ControllerButtons)
+                SetButtonText(source, mapperThread!.ControllerMapping.GetButtonMapping((ControllerButtons)source.Tag));
         }
 
 
         #region Axis Shared
-        private void UpdateAxisControls(RadioButton radioButton, Button bindButton, NumericUpDown numericUpDown, ComboBox comboBox)
+        private void UpdateAxisControls(RadioButton radioButton, Button bindButton, NumericUpDown numericUpDown, NumericUpDown axisIDNumericUpDown)
         {
             bindButton.Enabled = radioButton.Checked;
 
             numericUpDown.Enabled = radioButton.Checked;
 
-            comboBox.Enabled = !radioButton.Checked;
+            axisIDNumericUpDown.Enabled = !radioButton.Checked;
 
             if (bindButton.Enabled)
             {
@@ -398,20 +338,19 @@ namespace FestivalInstrumentMapper
 
         #region Tilt Groupbox
 
-
         private void tiltUseAxisRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateAxisControls(tiltUseButtonRadioButton, tiltBindButton, tiltPressedNumericUpDown, axisMapTiltComboBox);
+            UpdateAxisControls(tiltUseButtonRadioButton, tiltBindButton, tiltPressedNumericUpDown, tiltAxisIDNumericUpDown);
         }
 
         private void tiltUseButtonRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateAxisControls(tiltUseButtonRadioButton, tiltBindButton, tiltPressedNumericUpDown, axisMapTiltComboBox);
+            UpdateAxisControls(tiltUseButtonRadioButton, tiltBindButton, tiltPressedNumericUpDown, tiltAxisIDNumericUpDown);
         }
 
-        private void axisMapTiltComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void tiltAxisIDNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            mapperThread!.ControllerMapping.TiltInfo.AxisIndex = (byte)((ComboBox)sender).SelectedIndex;
+            mapperThread!.ControllerMapping.TiltInfo.AxisIndex = (byte)((NumericUpDown)sender).Value;
         }
 
         private void tiltBindButton_Click(object sender, EventArgs e)
@@ -430,17 +369,16 @@ namespace FestivalInstrumentMapper
 
         private void whammyUseAxisRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateAxisControls(whammyUseButtonRadioButton, whammyBindButton, whammyPressedNumericUpDown, axisMapWhammyComboBox);
+            UpdateAxisControls(whammyUseButtonRadioButton, whammyBindButton, whammyPressedNumericUpDown, whammyAxisIDNumericUpDown);
         }
 
         private void whammyUseButtonRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateAxisControls(whammyUseButtonRadioButton, whammyBindButton, whammyPressedNumericUpDown, axisMapWhammyComboBox);
+            UpdateAxisControls(whammyUseButtonRadioButton, whammyBindButton, whammyPressedNumericUpDown, whammyAxisIDNumericUpDown);
         }
-
-        private void axisMapWhammyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void whammyAxisIDNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            mapperThread!.ControllerMapping.WhammyInfo.AxisIndex = (byte)((ComboBox)sender).SelectedIndex;
+            mapperThread!.ControllerMapping.WhammyInfo.AxisIndex = (byte)((NumericUpDown)sender).Value;
         }
 
         private void whammyBindButton_Click(object sender, EventArgs e)
@@ -452,7 +390,7 @@ namespace FestivalInstrumentMapper
         {
 
         }
-        #endregion
 
+#endregion
     }
 }

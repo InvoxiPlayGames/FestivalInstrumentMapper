@@ -20,17 +20,8 @@ namespace FestivalInstrumentMapper
         DPadLeft,
         DPadRight,
 
-        StrumUp,
-        StrumDown,
-
         Start,
         Select
-    }
-    public enum StrumbarPosition
-    {
-        Up,
-        Neutral,
-        Down
     }
 
     /// <summary>
@@ -48,10 +39,6 @@ namespace FestivalInstrumentMapper
         public bool DPadDown = false;
         public bool DPadLeft = false;
         public bool DPadRight = false;
-
-        public StrumbarPosition StrumbarPosition => (StrumbarPosition)(Convert.ToByte(StrumDown) - Convert.ToByte(StrumUp)) + 1;
-        public bool StrumUp = false;
-        public bool StrumDown = false;
 
         public bool Start = false;
         public bool Select = false;
@@ -72,19 +59,17 @@ namespace FestivalInstrumentMapper
             DPadLeft = false;
             DPadRight = false;
 
-            StrumUp = false;
-            StrumDown = false;
-
             Start = false;
             Select = false;
 
             Whammy = 0;
             Tilt = 0;
         }
+
         public void Translate(ControllerMapping mapping)
         {
             // stackalloc for perf
-            Span<bool> buttonStates = stackalloc bool[13]; // 12 is item count for "buttons"
+            Span<bool> buttonStates = stackalloc bool[11];
 
             Span<float> axis = [ Whammy, Tilt ];
 
@@ -98,11 +83,8 @@ namespace FestivalInstrumentMapper
             buttonStates[7] = DPadLeft;
             buttonStates[8] = DPadRight;
 
-            buttonStates[9] = StrumUp;
-            buttonStates[10] = StrumDown;
-
-            buttonStates[11] = Start;
-            buttonStates[12] = Select;
+            buttonStates[9] = Start;
+            buttonStates[10] = Select;
 
 
             Reset();
@@ -121,12 +103,6 @@ namespace FestivalInstrumentMapper
                         SetButton(dstButton);
                 }
             }
-
-            // temp
-            StrumUp = buttonStates[9];
-            StrumDown = buttonStates[10];
-
-
 
             // Translate Axis
             for (int i = 1; i < 3; i++) // Iterate through each Axis
@@ -169,6 +145,7 @@ namespace FestivalInstrumentMapper
 
         public void Deserialize(ReadOnlySpan<byte> data)
         {
+            Console.WriteLine(data[7].ToString("b8"));
             GreenFret = (data[0] & 0b00010000) != 0;
             RedFret = (data[0] & 0b00100000) != 0;
             YellowFret = (data[0] & 0b10000000) != 0;
@@ -182,9 +159,6 @@ namespace FestivalInstrumentMapper
             DPadDown = (data[1] & 0b00000010) != 0;
             DPadLeft = (data[1] & 0b00000100) != 0;
             DPadRight = (data[1] & 0b00001000) != 0;
-
-            StrumUp = ((data[1] & 0b00000001) != 0);
-            StrumDown = ((data[1] & 0b00000010) != 0);
 
             Whammy = (float)data[2] / (float)0xFF;
             Tilt = (float)data[3] / (float)0xFF;
@@ -218,11 +192,6 @@ namespace FestivalInstrumentMapper
                 data[1] |= 0b00000100;
             if (DPadRight)
                 data[1] |= 0b00001000;
-
-            if (StrumUp)
-                data[1] |= 0b00000001;
-            if (StrumDown)
-                data[1] |= 0b00000010;
 
             data[2] = (byte)(Whammy * (float)0xFF);
             data[3] = (byte)(Tilt * (float)0xFF);
@@ -259,12 +228,6 @@ namespace FestivalInstrumentMapper
                 case ControllerButtons.DPadRight:
                     DPadRight = true;
                     break;
-                case ControllerButtons.StrumUp:
-                    StrumUp = true;
-                    break;
-                case ControllerButtons.StrumDown:
-                    StrumDown = true;
-                    break;
                 case ControllerButtons.Start:
                     Start = true;
                     break;
@@ -295,10 +258,6 @@ namespace FestivalInstrumentMapper
                     return DPadLeft;
                 case ControllerButtons.DPadRight:
                     return DPadRight;
-                case ControllerButtons.StrumUp:
-                    return StrumUp;
-                case ControllerButtons.StrumDown:
-                    return StrumDown;
                 case ControllerButtons.Start:
                     return Start;
                 case ControllerButtons.Select:
@@ -319,9 +278,6 @@ namespace FestivalInstrumentMapper
             DPadDown = false;
             DPadLeft = false;
             DPadRight = false;
-
-            StrumUp = false;
-            StrumDown = false;
 
             Start = false;
             Select = false;
@@ -353,10 +309,6 @@ namespace FestivalInstrumentMapper
             if (DPadRight)
                 buttons.Add(ControllerButtons.DPadRight);
 
-            if (StrumUp)
-                buttons.Add(ControllerButtons.StrumUp);
-            if (StrumDown)
-                buttons.Add(ControllerButtons.StrumDown);
             if (Start)
                 buttons.Add(ControllerButtons.Start);
             if (Select)
@@ -369,7 +321,6 @@ namespace FestivalInstrumentMapper
         {
             return 
                 $"Green: {GreenFret} Red: {RedFret} Yellow: {YellowFret} Blue: {BlueFret} Orange: {OrangeFret} " +
-                $"StrumUp: {StrumUp} StrumDown: {StrumDown} " + 
                 $"Up: {DPadUp} Down: {DPadDown} Left: {DPadLeft} Right: {DPadRight} " +
                 $"Start: {Start} Select: {Select} " +
                 $"Whammy: {Whammy} Tilt: {Tilt}";

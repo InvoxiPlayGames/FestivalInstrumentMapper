@@ -42,9 +42,6 @@ namespace FestivalInstrumentMapper
         public ControllerButtons[] DPadLeft { get; set; } = [ ControllerButtons.DPadLeft ];
         public ControllerButtons[] DPadRight { get; set; } = [ ControllerButtons.DPadRight ];
 
-        public ControllerButtons[] StrumUp { get; set; } = [ControllerButtons.StrumUp];
-        public ControllerButtons[] StrumDown { get; set; } = [ControllerButtons.StrumDown];
-
         public ControllerButtons[] Start { get; set; } = [ ControllerButtons.Start ];
         public ControllerButtons[] Select { get; set; } = [ ControllerButtons.Select ];
 
@@ -83,12 +80,6 @@ namespace FestivalInstrumentMapper
                 case ControllerButtons.DPadRight:
                     DPadRight = sourceButtons;
                     break;
-                case ControllerButtons.StrumUp:
-                    StrumUp = sourceButtons;
-                    break;
-                case ControllerButtons.StrumDown:
-                    StrumDown = sourceButtons;
-                    break;
                 case ControllerButtons.Start:
                     Start = sourceButtons;
                     break;
@@ -111,19 +102,30 @@ namespace FestivalInstrumentMapper
                     return BlueFret;
                 case ControllerButtons.OrangeFret:
                     return OrangeFret;
+                case ControllerButtons.DPadUp:
+                    return DPadUp;
+                case ControllerButtons.DPadDown:
+                    return DPadDown;
+                case ControllerButtons.DPadLeft:
+                    return DPadLeft;
+                case ControllerButtons.DPadRight:
+                    return DPadRight;
+                case ControllerButtons.Start:
+                    return Start;
+                case ControllerButtons.Select:
+                    return Select;
                 default:
                     return [];
             }
         }
 
         
-        public AxisMapping GetAxisMapping(int index)
+        public AxisMapping? GetAxisMapping(int index)
         {
             switch (index)
             {
                 case 0:
                     return null;
-                    break;
                 case DefaultWhammyAxisIndex:
                     return WhammyInfo;
                 case DefaultTiltAxisIndex:
@@ -146,9 +148,6 @@ namespace FestivalInstrumentMapper
             DPadDown = [ ControllerButtons.DPadDown ];
             DPadLeft = [ ControllerButtons.DPadLeft ];
             DPadRight = [ ControllerButtons.DPadRight ];
-
-            StrumUp = [ ControllerButtons.StrumUp ];
-            StrumDown = [ ControllerButtons.StrumDown ];
 
             Start = [ ControllerButtons.Start ];
             Select  = [ ControllerButtons.Select ];

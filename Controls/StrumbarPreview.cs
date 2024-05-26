@@ -17,28 +17,38 @@ namespace FestivalInstrumentMapper.Controls
             InitializeComponent();
         }
 
-        private StrumbarPosition strumbarPosition = StrumbarPosition.Neutral;
+        private bool strumUp = false;
+        private bool strumDown = false;
 
-        public StrumbarPosition StrumbarPosition
+        public bool StrumUp
         {
-            get => strumbarPosition;
+            get => strumUp;
             set
             {
-                if (strumbarPosition != value)
+                if (value != strumUp)
                     Invalidate();
-
-                strumbarPosition = value;
+                strumUp = value;
+            }
+        }
+        public bool StrumDown
+        {
+            get => strumDown;
+            set
+            {
+                if (value != strumDown)
+                    Invalidate();
+                strumDown = value;
             }
         }
 
         private void StrumbarPreview_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(this.BackColor);
-            Bitmap img = StrumbarPosition switch
+            Bitmap img = (Convert.ToSByte(StrumUp) - Convert.ToSByte(StrumDown)) switch
             {
-                StrumbarPosition.Up => Properties.Resources.strumbarU,
-                StrumbarPosition.Neutral => Properties.Resources.strumbarN,
-                StrumbarPosition.Down => Properties.Resources.strumbarD,
+                1 => Properties.Resources.strumbarU,
+                0 => Properties.Resources.strumbarN,
+                -1 => Properties.Resources.strumbarD,
                 _ => throw new NotImplementedException()
             };
 

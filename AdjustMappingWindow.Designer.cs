@@ -49,17 +49,20 @@
             bindDPadRightButton = new Button();
             tiltBindButton = new Button();
             whammyBindButton = new Button();
+            bindSelectButton = new Button();
+            bindStartButton = new Button();
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
             groupBox1 = new GroupBox();
+            label14 = new Label();
+            tiltAxisIDNumericUpDown = new NumericUpDown();
             tiltValueLabel = new Label();
             label10 = new Label();
             tiltPressedNumericUpDown = new NumericUpDown();
             tiltUseButtonRadioButton = new RadioButton();
             tiltUseAxisRadioButton = new RadioButton();
-            axisMapTiltComboBox = new ComboBox();
             toolStrip = new ToolStrip();
             addProfileToolStripButton = new ToolStripButton();
             removeProfileToolStripButton = new ToolStripButton();
@@ -69,17 +72,21 @@
             toolStripButton2 = new ToolStripButton();
             refreshProfileToolStripButton = new ToolStripButton();
             groupBox2 = new GroupBox();
+            label15 = new Label();
             whammyValueLabel = new Label();
+            whammyAxisIDNumericUpDown = new NumericUpDown();
             label11 = new Label();
             whammyPressedNumericUpDown = new NumericUpDown();
             whammyUseButtonRadioButton = new RadioButton();
             whammyUseAxisRadioButton = new RadioButton();
-            axisMapWhammyComboBox = new ComboBox();
-            strumbarPreview = new Controls.StrumbarPreview();
+            label16 = new Label();
+            label17 = new Label();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)tiltAxisIDNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tiltPressedNumericUpDown).BeginInit();
             toolStrip.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)whammyAxisIDNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)whammyPressedNumericUpDown).BeginInit();
             SuspendLayout();
             // 
@@ -162,8 +169,7 @@
             bindGreenFretButton.TabIndex = 7;
             commonToolTip.SetToolTip(bindGreenFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindGreenFretButton.UseVisualStyleBackColor = true;
-            bindGreenFretButton.TextChanged += FretButton_TextChanged;
-            bindGreenFretButton.MouseClick += bindGreenFretButton_MouseClick;
+            bindGreenFretButton.MouseClick += bindButton_MouseClick;
             // 
             // bindRedFretButton
             // 
@@ -173,7 +179,7 @@
             bindRedFretButton.TabIndex = 8;
             commonToolTip.SetToolTip(bindRedFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindRedFretButton.UseVisualStyleBackColor = true;
-            bindRedFretButton.MouseClick += bindRedFretButton_MouseClick;
+            bindRedFretButton.MouseClick += bindButton_MouseClick;
             // 
             // bindYellowFretButton
             // 
@@ -183,7 +189,7 @@
             bindYellowFretButton.TabIndex = 9;
             commonToolTip.SetToolTip(bindYellowFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindYellowFretButton.UseVisualStyleBackColor = true;
-            bindYellowFretButton.MouseClick += bindYellowFretButton_MouseClick;
+            bindYellowFretButton.MouseClick += bindButton_MouseClick;
             // 
             // bindBlueFretButton
             // 
@@ -193,7 +199,7 @@
             bindBlueFretButton.TabIndex = 10;
             commonToolTip.SetToolTip(bindBlueFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindBlueFretButton.UseVisualStyleBackColor = true;
-            bindBlueFretButton.MouseClick += bindBlueFretButton_MouseClick;
+            bindBlueFretButton.MouseClick += bindButton_MouseClick;
             // 
             // bindOrangeFretButton
             // 
@@ -203,7 +209,7 @@
             bindOrangeFretButton.TabIndex = 11;
             commonToolTip.SetToolTip(bindOrangeFretButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset\r\n");
             bindOrangeFretButton.UseVisualStyleBackColor = true;
-            bindOrangeFretButton.MouseClick += bindOrangeFretButton_MouseClick;
+            bindOrangeFretButton.MouseClick += bindButton_MouseClick;
             // 
             // bindDPadUpButton
             // 
@@ -213,7 +219,7 @@
             bindDPadUpButton.TabIndex = 12;
             commonToolTip.SetToolTip(bindDPadUpButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadUpButton.UseVisualStyleBackColor = true;
-            bindDPadUpButton.MouseClick += bindDPadUpButton_MouseClick;
+            bindDPadUpButton.MouseClick += bindButton_MouseClick;
             // 
             // bindDPadDownButton
             // 
@@ -223,7 +229,7 @@
             bindDPadDownButton.TabIndex = 13;
             commonToolTip.SetToolTip(bindDPadDownButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadDownButton.UseVisualStyleBackColor = true;
-            bindDPadDownButton.MouseClick += bindDPadDownButton_MouseClick;
+            bindDPadDownButton.MouseClick += bindButton_MouseClick;
             // 
             // bindDPadLeftButton
             // 
@@ -233,7 +239,7 @@
             bindDPadLeftButton.TabIndex = 14;
             commonToolTip.SetToolTip(bindDPadLeftButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadLeftButton.UseVisualStyleBackColor = true;
-            bindDPadLeftButton.MouseClick += bindDPadLeftButton_MouseClick;
+            bindDPadLeftButton.MouseClick += bindButton_MouseClick;
             // 
             // bindDPadRightButton
             // 
@@ -243,7 +249,7 @@
             bindDPadRightButton.TabIndex = 15;
             commonToolTip.SetToolTip(bindDPadRightButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             bindDPadRightButton.UseVisualStyleBackColor = true;
-            bindDPadRightButton.MouseClick += bindDPadRightButton_MouseClick;
+            bindDPadRightButton.MouseClick += bindButton_MouseClick;
             // 
             // tiltBindButton
             // 
@@ -268,6 +274,26 @@
             commonToolTip.SetToolTip(whammyBindButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
             whammyBindButton.UseVisualStyleBackColor = true;
             whammyBindButton.Click += whammyBindButton_Click;
+            // 
+            // bindSelectButton
+            // 
+            bindSelectButton.Location = new Point(488, 213);
+            bindSelectButton.Name = "bindSelectButton";
+            bindSelectButton.Size = new Size(142, 23);
+            bindSelectButton.TabIndex = 32;
+            commonToolTip.SetToolTip(bindSelectButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
+            bindSelectButton.UseVisualStyleBackColor = true;
+            bindSelectButton.MouseClick += bindButton_MouseClick;
+            // 
+            // bindStartButton
+            // 
+            bindStartButton.Location = new Point(488, 184);
+            bindStartButton.Name = "bindStartButton";
+            bindStartButton.Size = new Size(142, 23);
+            bindStartButton.TabIndex = 31;
+            commonToolTip.SetToolTip(bindStartButton, "Left Click - Set Button\r\nRight Click - Add Button\r\nMiddle Click - Reset");
+            bindStartButton.UseVisualStyleBackColor = true;
+            bindStartButton.MouseClick += bindButton_MouseClick;
             // 
             // label6
             // 
@@ -307,19 +333,39 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label14);
+            groupBox1.Controls.Add(tiltAxisIDNumericUpDown);
             groupBox1.Controls.Add(tiltValueLabel);
             groupBox1.Controls.Add(label10);
             groupBox1.Controls.Add(tiltPressedNumericUpDown);
             groupBox1.Controls.Add(tiltBindButton);
             groupBox1.Controls.Add(tiltUseButtonRadioButton);
             groupBox1.Controls.Add(tiltUseAxisRadioButton);
-            groupBox1.Controls.Add(axisMapTiltComboBox);
             groupBox1.Location = new Point(10, 329);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(316, 124);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Tilt";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(146, 24);
+            label14.Name = "label14";
+            label14.Size = new Size(46, 15);
+            label14.TabIndex = 31;
+            label14.Text = "Axis ID:";
+            // 
+            // tiltAxisIDNumericUpDown
+            // 
+            tiltAxisIDNumericUpDown.Location = new Point(198, 18);
+            tiltAxisIDNumericUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
+            tiltAxisIDNumericUpDown.Name = "tiltAxisIDNumericUpDown";
+            tiltAxisIDNumericUpDown.Size = new Size(112, 23);
+            tiltAxisIDNumericUpDown.TabIndex = 31;
+            tiltAxisIDNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            tiltAxisIDNumericUpDown.ValueChanged += tiltAxisIDNumericUpDown_ValueChanged;
             // 
             // tiltValueLabel
             // 
@@ -372,17 +418,6 @@
             tiltUseAxisRadioButton.Text = "Use Axis";
             tiltUseAxisRadioButton.UseVisualStyleBackColor = true;
             tiltUseAxisRadioButton.CheckedChanged += tiltUseAxisRadioButton_CheckedChanged;
-            // 
-            // axisMapTiltComboBox
-            // 
-            axisMapTiltComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            axisMapTiltComboBox.FormattingEnabled = true;
-            axisMapTiltComboBox.Items.AddRange(new object[] { "Nothing", "Whammy", "Tilt" });
-            axisMapTiltComboBox.Location = new Point(146, 22);
-            axisMapTiltComboBox.Name = "axisMapTiltComboBox";
-            axisMapTiltComboBox.Size = new Size(164, 23);
-            axisMapTiltComboBox.TabIndex = 22;
-            axisMapTiltComboBox.SelectedIndexChanged += axisMapTiltComboBox_SelectedIndexChanged;
             // 
             // toolStrip
             // 
@@ -460,19 +495,29 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label15);
             groupBox2.Controls.Add(whammyValueLabel);
+            groupBox2.Controls.Add(whammyAxisIDNumericUpDown);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(whammyPressedNumericUpDown);
             groupBox2.Controls.Add(whammyBindButton);
             groupBox2.Controls.Add(whammyUseButtonRadioButton);
             groupBox2.Controls.Add(whammyUseAxisRadioButton);
-            groupBox2.Controls.Add(axisMapWhammyComboBox);
             groupBox2.Location = new Point(332, 329);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(316, 124);
             groupBox2.TabIndex = 25;
             groupBox2.TabStop = false;
             groupBox2.Text = "Whammy";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(146, 24);
+            label15.Name = "label15";
+            label15.Size = new Size(46, 15);
+            label15.TabIndex = 32;
+            label15.Text = "Axis ID:";
             // 
             // whammyValueLabel
             // 
@@ -482,6 +527,16 @@
             whammyValueLabel.Size = new Size(13, 15);
             whammyValueLabel.TabIndex = 26;
             whammyValueLabel.Text = "0";
+            // 
+            // whammyAxisIDNumericUpDown
+            // 
+            whammyAxisIDNumericUpDown.Location = new Point(198, 18);
+            whammyAxisIDNumericUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
+            whammyAxisIDNumericUpDown.Name = "whammyAxisIDNumericUpDown";
+            whammyAxisIDNumericUpDown.Size = new Size(112, 23);
+            whammyAxisIDNumericUpDown.TabIndex = 33;
+            whammyAxisIDNumericUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            whammyAxisIDNumericUpDown.ValueChanged += whammyAxisIDNumericUpDown_ValueChanged;
             // 
             // label11
             // 
@@ -526,31 +581,33 @@
             whammyUseAxisRadioButton.UseVisualStyleBackColor = true;
             whammyUseAxisRadioButton.CheckedChanged += whammyUseAxisRadioButton_CheckedChanged;
             // 
-            // axisMapWhammyComboBox
+            // label16
             // 
-            axisMapWhammyComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            axisMapWhammyComboBox.FormattingEnabled = true;
-            axisMapWhammyComboBox.Items.AddRange(new object[] { "Nothing", "Whammy", "Tilt" });
-            axisMapWhammyComboBox.Location = new Point(146, 22);
-            axisMapWhammyComboBox.Name = "axisMapWhammyComboBox";
-            axisMapWhammyComboBox.Size = new Size(164, 23);
-            axisMapWhammyComboBox.TabIndex = 22;
-            axisMapWhammyComboBox.SelectedIndexChanged += axisMapWhammyComboBox_SelectedIndexChanged;
+            label16.AutoSize = true;
+            label16.Location = new Point(441, 217);
+            label16.Name = "label16";
+            label16.Size = new Size(41, 15);
+            label16.TabIndex = 34;
+            label16.Text = "Select:";
             // 
-            // strumbarPreview
+            // label17
             // 
-            strumbarPreview.Location = new Point(441, 28);
-            strumbarPreview.Name = "strumbarPreview";
-            strumbarPreview.Size = new Size(290, 96);
-            strumbarPreview.StrumbarPosition = StrumbarPosition.Neutral;
-            strumbarPreview.TabIndex = 26;
+            label17.AutoSize = true;
+            label17.Location = new Point(448, 188);
+            label17.Name = "label17";
+            label17.Size = new Size(34, 15);
+            label17.TabIndex = 33;
+            label17.Text = "Start:";
             // 
             // AdjustMappingWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 542);
-            Controls.Add(strumbarPreview);
+            Controls.Add(label16);
+            Controls.Add(label17);
+            Controls.Add(bindSelectButton);
+            Controls.Add(bindStartButton);
             Controls.Add(groupBox2);
             Controls.Add(toolStrip);
             Controls.Add(groupBox1);
@@ -581,11 +638,13 @@
             Load += AdjustMappingWindow_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)tiltAxisIDNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)tiltPressedNumericUpDown).EndInit();
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)whammyAxisIDNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)whammyPressedNumericUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -627,7 +686,6 @@
         private ToolStripButton saveProfileToolStripButton;
         private Label label10;
         private NumericUpDown tiltPressedNumericUpDown;
-        private ComboBox axisMapTiltComboBox;
         private GroupBox groupBox2;
         private Label whammyValueLabel;
         private Label label11;
@@ -635,10 +693,16 @@
         private Button whammyBindButton;
         private RadioButton whammyUseButtonRadioButton;
         private RadioButton whammyUseAxisRadioButton;
-        private ComboBox axisMapWhammyComboBox;
         private Label tiltValueLabel;
         private ToolStripComboBox profileToolStripComboBox;
         private ToolStripTextBox toolStripTextBox1;
-        private Controls.StrumbarPreview strumbarPreview;
+        private Label label14;
+        private NumericUpDown tiltAxisIDNumericUpDown;
+        private Label label15;
+        private NumericUpDown whammyAxisIDNumericUpDown;
+        private Label label16;
+        private Label label17;
+        private Button bindSelectButton;
+        private Button bindStartButton;
     }
 }
