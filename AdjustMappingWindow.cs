@@ -96,6 +96,8 @@ namespace FestivalInstrumentMapper
             var name = GetNextValidName();
             profileToolStripComboBox.Items.Add(name);
             ControllerMapping.Save(name, new ControllerMapping());
+
+            profileToolStripComboBox.SelectedItem = name;
         }
 
         private void removeProfileToolStripButton_Click(object sender, EventArgs e)
