@@ -13,14 +13,14 @@ namespace FestivalInstrumentMapper
     {
         public ControllerMapping()
         {
-
+            TiltInfo.DeadZone = 50;
         }
 
         public class AxisMapping
         {
             public AxisMapping()
             {
-
+                
             }
             public AxisMapping(ControllerAxis axisIndex)
             {
@@ -31,6 +31,7 @@ namespace FestivalInstrumentMapper
             public ControllerAxis AxisIndex { get; set; } = ControllerAxis.Whammy;
             public ControllerButtons[] Buttons { get; set; } = Array.Empty<ControllerButtons>();
             public byte PressedValue { get; set; } = 100;
+            public byte DeadZone { get; set; } = 0;
         }
 
         public static void Save(string name, ControllerMapping mapping) => File.WriteAllText($"Profile\\{name}.json", System.Text.Json.JsonSerializer.Serialize(mapping, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true }));
@@ -167,8 +168,17 @@ namespace FestivalInstrumentMapper
             Start = [ ControllerButtons.Start ];
             Select  = [ ControllerButtons.Select ];
 
+            WhammyInfo.MapToAxis = true;
+            TiltInfo.MapToAxis = true;
+
+            WhammyInfo.Buttons = Array.Empty<ControllerButtons>();
+            TiltInfo.Buttons = Array.Empty<ControllerButtons>();
+
             WhammyInfo.AxisIndex = ControllerAxis.Whammy;
             TiltInfo.AxisIndex = ControllerAxis.Tilt;
+
+            WhammyInfo.DeadZone = 0;
+            TiltInfo.DeadZone = 50;
         }
 
     }

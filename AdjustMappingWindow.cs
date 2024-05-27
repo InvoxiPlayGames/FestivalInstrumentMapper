@@ -437,9 +437,6 @@ namespace FestivalInstrumentMapper
         {
             mapperThread!.ControllerMapping = new();
 
-            // whammyAxisIDNumericUpDown.Value = (int)ControllerAxis.Whammy;
-            // tiltAxisIDNumericUpDown.Value = (int)ControllerAxis.Tilt;
-
             SetButtonTexts();
         }
 
@@ -493,6 +490,7 @@ namespace FestivalInstrumentMapper
 
             whammyAxisIDNumericUpDown.Value = (int)whammyAxisInfo.AxisIndex;
             whammyPressedNumericUpDown.Value = whammyAxisInfo.PressedValue;
+            whammyDeadZoneNumericUpDown.Value = whammyAxisInfo.DeadZone;
 
             var tiltAxisInfo = mapperThread!.ControllerMapping.GetAxisMapping(ControllerAxis.Tilt)!;
             SetButtonText(bindTiltButton, tiltAxisInfo.Buttons);
@@ -501,6 +499,7 @@ namespace FestivalInstrumentMapper
 
             tiltAxisIDNumericUpDown.Value = (int)tiltAxisInfo.AxisIndex;
             tiltPressedNumericUpDown.Value = tiltAxisInfo.PressedValue;
+            tiltDeadZoneNumericUpDown.Value = tiltAxisInfo.DeadZone;
 
             UpdateAxisControls(whammyUseButtonRadioButton, bindWhammyButton, whammyPressedNumericUpDown, whammyAxisIDNumericUpDown);
             UpdateAxisControls(tiltUseButtonRadioButton, bindTiltButton, tiltPressedNumericUpDown, tiltAxisIDNumericUpDown);
@@ -651,7 +650,13 @@ namespace FestivalInstrumentMapper
 
             mapperThread!.ControllerMapping.TiltInfo.AxisIndex = (ControllerAxis)((NumericUpDown)sender).Value;
         }
+        private void tiltDeadZoneNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (ignoreAxisUpdates)
+                return;
 
+            mapperThread!.ControllerMapping.TiltInfo.DeadZone = (byte)((NumericUpDown)sender).Value;
+        }
         #endregion
 
         #region Whammy Groupbox
@@ -683,6 +688,14 @@ namespace FestivalInstrumentMapper
             mapperThread!.ControllerMapping.WhammyInfo.AxisIndex = (ControllerAxis)((NumericUpDown)sender).Value;
         }
 
-#endregion
+        private void whammyDeadZoneNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (ignoreAxisUpdates)
+                return;
+
+            mapperThread!.ControllerMapping.WhammyInfo.DeadZone = (byte)((NumericUpDown)sender).Value;
+        }
+        #endregion
+
     }
 }

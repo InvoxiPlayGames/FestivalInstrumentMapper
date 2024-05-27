@@ -56,6 +56,8 @@
             label8 = new Label();
             label9 = new Label();
             groupBox1 = new GroupBox();
+            label12 = new Label();
+            tiltDeadZoneNumericUpDown = new NumericUpDown();
             label14 = new Label();
             tiltAxisIDNumericUpDown = new NumericUpDown();
             tiltValueLabel = new Label();
@@ -72,7 +74,9 @@
             resetAllMappingsToolStripButton = new ToolStripButton();
             refreshProfileToolStripButton = new ToolStripButton();
             groupBox2 = new GroupBox();
+            label13 = new Label();
             label15 = new Label();
+            whammyDeadZoneNumericUpDown = new NumericUpDown();
             whammyValueLabel = new Label();
             whammyAxisIDNumericUpDown = new NumericUpDown();
             label11 = new Label();
@@ -82,10 +86,12 @@
             label16 = new Label();
             label17 = new Label();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)tiltDeadZoneNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tiltAxisIDNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tiltPressedNumericUpDown).BeginInit();
             toolStrip.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)whammyDeadZoneNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)whammyAxisIDNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)whammyPressedNumericUpDown).BeginInit();
             SuspendLayout();
@@ -333,6 +339,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            groupBox1.Controls.Add(label12);
+            groupBox1.Controls.Add(tiltDeadZoneNumericUpDown);
             groupBox1.Controls.Add(label14);
             groupBox1.Controls.Add(tiltAxisIDNumericUpDown);
             groupBox1.Controls.Add(tiltValueLabel);
@@ -343,10 +352,29 @@
             groupBox1.Controls.Add(tiltUseAxisRadioButton);
             groupBox1.Location = new Point(10, 329);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(316, 124);
+            groupBox1.Size = new Size(316, 153);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Tilt";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(57, 110);
+            label12.Name = "label12";
+            label12.Size = new Size(62, 15);
+            label12.TabIndex = 33;
+            label12.Text = "Deadzone:";
+            // 
+            // tiltDeadZoneNumericUpDown
+            // 
+            tiltDeadZoneNumericUpDown.Location = new Point(125, 108);
+            tiltDeadZoneNumericUpDown.Maximum = new decimal(new int[] { 90, 0, 0, 0 });
+            tiltDeadZoneNumericUpDown.Name = "tiltDeadZoneNumericUpDown";
+            tiltDeadZoneNumericUpDown.Size = new Size(185, 23);
+            tiltDeadZoneNumericUpDown.TabIndex = 32;
+            tiltDeadZoneNumericUpDown.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            tiltDeadZoneNumericUpDown.ValueChanged += tiltDeadZoneNumericUpDown_ValueChanged;
             // 
             // label14
             // 
@@ -370,7 +398,7 @@
             // tiltValueLabel
             // 
             tiltValueLabel.AutoSize = true;
-            tiltValueLabel.Location = new Point(6, 106);
+            tiltValueLabel.Location = new Point(6, 135);
             tiltValueLabel.Name = "tiltValueLabel";
             tiltValueLabel.Size = new Size(13, 15);
             tiltValueLabel.TabIndex = 27;
@@ -498,7 +526,9 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(label15);
+            groupBox2.Controls.Add(whammyDeadZoneNumericUpDown);
             groupBox2.Controls.Add(whammyValueLabel);
             groupBox2.Controls.Add(whammyAxisIDNumericUpDown);
             groupBox2.Controls.Add(label11);
@@ -508,10 +538,19 @@
             groupBox2.Controls.Add(whammyUseAxisRadioButton);
             groupBox2.Location = new Point(332, 329);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(316, 124);
+            groupBox2.Size = new Size(316, 153);
             groupBox2.TabIndex = 25;
             groupBox2.TabStop = false;
             groupBox2.Text = "Whammy";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(57, 110);
+            label13.Name = "label13";
+            label13.Size = new Size(62, 15);
+            label13.TabIndex = 36;
+            label13.Text = "Deadzone:";
             // 
             // label15
             // 
@@ -522,10 +561,19 @@
             label15.TabIndex = 32;
             label15.Text = "Axis ID:";
             // 
+            // whammyDeadZoneNumericUpDown
+            // 
+            whammyDeadZoneNumericUpDown.Location = new Point(125, 108);
+            whammyDeadZoneNumericUpDown.Maximum = new decimal(new int[] { 90, 0, 0, 0 });
+            whammyDeadZoneNumericUpDown.Name = "whammyDeadZoneNumericUpDown";
+            whammyDeadZoneNumericUpDown.Size = new Size(185, 23);
+            whammyDeadZoneNumericUpDown.TabIndex = 35;
+            whammyDeadZoneNumericUpDown.ValueChanged += whammyDeadZoneNumericUpDown_ValueChanged;
+            // 
             // whammyValueLabel
             // 
             whammyValueLabel.AutoSize = true;
-            whammyValueLabel.Location = new Point(6, 106);
+            whammyValueLabel.Location = new Point(6, 135);
             whammyValueLabel.Name = "whammyValueLabel";
             whammyValueLabel.Size = new Size(13, 15);
             whammyValueLabel.TabIndex = 26;
@@ -608,7 +656,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(716, 479);
+            ClientSize = new Size(716, 506);
             Controls.Add(label16);
             Controls.Add(label17);
             Controls.Add(bindSelectButton);
@@ -647,12 +695,14 @@
             Load += AdjustMappingWindow_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)tiltDeadZoneNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)tiltAxisIDNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)tiltPressedNumericUpDown).EndInit();
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)whammyDeadZoneNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)whammyAxisIDNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)whammyPressedNumericUpDown).EndInit();
             ResumeLayout(false);
@@ -713,5 +763,9 @@
         private Label label17;
         private Button bindSelectButton;
         private Button bindStartButton;
+        private Label label12;
+        private NumericUpDown tiltDeadZoneNumericUpDown;
+        private Label label13;
+        private NumericUpDown whammyDeadZoneNumericUpDown;
     }
 }

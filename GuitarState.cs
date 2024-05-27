@@ -122,7 +122,18 @@ namespace FestivalInstrumentMapper
                     continue;
 
                 if (dstAxis.MapToAxis)
-                    SetAxisValue((ControllerAxis)i, axis[(int)dstAxis.AxisIndex]);
+                {
+                    float axisValue = (float)axis[(int)dstAxis.AxisIndex];
+                    float deadZone = (float)dstAxis.DeadZone / 100.0f;
+                    if (deadZone != 0)
+                    {
+                        if (axisValue <= deadZone)
+                            axisValue = 0;
+                        else
+                            axisValue = (axisValue - deadZone) / (1.0f - deadZone);
+                    }
+                    SetAxisValue((ControllerAxis)i, axisValue);
+                }
                 else
                 {
                     ControllerButtons[] dstMappedButtons = mapping.GetAxisMapping((ControllerAxis)i)!.Buttons!;
@@ -130,7 +141,18 @@ namespace FestivalInstrumentMapper
                     foreach (var dstMappedButton in dstMappedButtons)
                     {
                         if (buttonStates[(int)dstMappedButton])
-                            SetAxisValue((ControllerAxis)i, (float)dstAxis.PressedValue / 100.0f);
+                        {
+                            float axisValue = (float)dstAxis.PressedValue / 100.0f;
+                            float deadZone = (float)dstAxis.DeadZone / 100.0f;
+                            if (deadZone != 0)
+                            {
+                                if (axisValue <= deadZone)
+                                    axisValue = 0;
+                                else
+                                    axisValue = (axisValue - deadZone) / (1.0f - deadZone);
+                            }
+                            SetAxisValue((ControllerAxis)i, axisValue);
+                        }
                     }
                 }
             }
@@ -215,7 +237,6 @@ namespace FestivalInstrumentMapper
             data[2] = (byte)(Whammy * (float)0xFF);
             data[3] = (byte)(Tilt * (float)0xFF);
         }
-
         public void SetButton(ControllerButtons button)
         {
             switch (button)
@@ -335,7 +356,6 @@ namespace FestivalInstrumentMapper
 
             return buttons.ToArray();
         }
-
         public override string ToString()
         {
             return 
