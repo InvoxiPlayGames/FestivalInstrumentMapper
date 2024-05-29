@@ -244,7 +244,7 @@ namespace FestivalInstrumentMapper
 
             form.ShowDialog();
 
-            Settings.Profile = form.Profile;
+            // Settings.Profile = mapperThread!.p;
 
             Settings.Save(Settings);
         }
