@@ -86,6 +86,9 @@ namespace FestivalInstrumentMapper
 
                 while (!_shouldStop)
                 {
+                    for (var i = 0; i < translatedReport.Length; i++)
+                        translatedReport[i] = 0;
+
                     if (ControllerMapping != controllerMapping)
                         controllerMapping = ControllerMapping;
 
@@ -102,7 +105,7 @@ namespace FestivalInstrumentMapper
                     }
 
                     // END OF TODO
-                    guitarState.Reset();
+                    // guitarState.Reset();
 
                     guitarState.Deserialize(gipReport);
 
