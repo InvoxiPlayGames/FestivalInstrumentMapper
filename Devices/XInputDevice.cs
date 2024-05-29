@@ -23,6 +23,7 @@ namespace FestivalInstrumentMapper.Devices
                 // regular gamepads only show up here for the sake of ViGEmBus and x360ce
                 return _capabilities.SubType == XInputControllerSubType.Guitar ||
                     _capabilities.SubType == XInputControllerSubType.GuitarAlternate ||
+                    _capabilities.SubType == XInputControllerSubType.GuitarBass ||
                     _capabilities.SubType == XInputControllerSubType.Gamepad;
             }
             return false;
