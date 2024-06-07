@@ -195,7 +195,15 @@ namespace FestivalInstrumentMapper
             HidHideConfigWindow configWindow = new();
             configWindow.ShowDialog(this);
         }
-
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // is closing the user closing or no 
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // call application exit
+                Application.Exit();
+            }
+        }
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             var exception = (Exception)args.ExceptionObject;

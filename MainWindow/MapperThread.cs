@@ -1,3 +1,6 @@
+using System.Threading;
+using System;
+
 namespace FestivalInstrumentMapper
 {
     internal delegate void ToGipAction(ReadOnlySpan<byte> inputBuffer, Span<byte> gipBuffer);
