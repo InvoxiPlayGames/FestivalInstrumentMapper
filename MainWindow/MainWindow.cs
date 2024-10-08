@@ -38,7 +38,9 @@ namespace FestivalInstrumentMapper
                 (0x289B, 0x002B),
                 (0x289B, 0x002C),
                 (0x289B, 0x0080),
-                (0x289B, 0x0081)
+                (0x289B, 0x0081),
+                // PC GHWT Guitar
+                (0x1430, 0x474C)
             ];
 
             var enumeratedHidDevices = HidDeviceStream.Enumerate(filterIds);
